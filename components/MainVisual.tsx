@@ -1,33 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 const morphTexts = ["young", "0", "榮"] as const;
 
-/**
- * 각 글자가 화면에 유지되는 시간
- */
 const symbolDurations = [
-  1900, // young
-  1100, // 0
+  1800, // 영
+  900, // 0
   2200, // 榮
 ] as const;
-
-const SYMBOL_TRANSITION_DURATION = 420;
 
 export default function MainVisual() {
   const [showStudio, setShowStudio] = useState(false);
   const [showUnderline, setShowUnderline] = useState(false);
   const [showSymbol, setShowSymbol] = useState(false);
+  const [symbolIndex, setSymbolIndex] = useState(0);
   const [showContent, setShowContent] = useState(false);
 
-  const [symbolIndex, setSymbolIndex] = useState(0);
-  const [isSymbolChanging, setIsSymbolChanging] = useState(false);
-
-  /**
-   * 최초 등장 애니메이션
-   * studio → _ → young → 내용
-   */
+  /* 첫 등장 순서 */
   useEffect(() => {
     const timers = [
       window.setTimeout(() => {
@@ -44,7 +33,7 @@ export default function MainVisual() {
 
       window.setTimeout(() => {
         setShowContent(true);
-      }, 4700),
+      }, 5000),
     ];
 
     return () => {
@@ -52,40 +41,32 @@ export default function MainVisual() {
     };
   }, []);
 
-  /**
-   * young → 0 → 榮 무한 반복
-   *
-   * 1. 현재 글자를 Blur Out
-   * 2. 글자 교체
-   * 3. 새 글자를 Blur In
-   */
+  /* 영 → 0 → 榮 무한 반복 */
   useEffect(() => {
     if (!showSymbol) return;
 
-    let changeTimer: number;
-    let swapTimer: number;
+    let timeoutId: number;
 
-    changeTimer = window.setTimeout(() => {
-      setIsSymbolChanging(true);
+    const changeSymbol = () => {
+      const currentDuration = symbolDurations[symbolIndex];
 
-      swapTimer = window.setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
         setSymbolIndex((currentIndex) => {
           return (currentIndex + 1) % morphTexts.length;
         });
+      }, currentDuration);
+    };
 
-        setIsSymbolChanging(false);
-      }, SYMBOL_TRANSITION_DURATION);
-    }, symbolDurations[symbolIndex]);
+    changeSymbol();
 
     return () => {
-      window.clearTimeout(changeTimer);
-      window.clearTimeout(swapTimer);
+      window.clearTimeout(timeoutId);
     };
   }, [showSymbol, symbolIndex]);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#0b0b0b] text-white">
-      {/* 은은한 배경 효과 */}
+      {/* 배경의 은은한 붉은 빛 */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ed1b36]/[0.035] blur-[140px]" />
       </div>
@@ -120,8 +101,8 @@ export default function MainVisual() {
               <span
                 aria-hidden="true"
                 className={[
-                  "mx-[0.035em] inline-block",
-                  "h-[0.09em] w-[0.8em]",
+                  "mx-[0.04em] inline-block",
+                  "h-[0.05em] w-[0.4em]",
                   "translate-y-[0.08em] rounded-full",
                   "bg-[#ed1b36]",
                   "shadow-[0_0_18px_rgba(237,27,54,0.65)]",
@@ -136,49 +117,31 @@ export default function MainVisual() {
               {/* young → 0 → 榮 */}
               <span
                 className={[
-                  "relative ml-[0.025em] inline-block",
-                  "h-[1em] w-[1.65em]",
+                  "relative  inline-block",
+                  "h-[1em] w-[1.5em]",
                   "transition-opacity duration-500",
                   showSymbol ? "opacity-100" : "opacity-0",
                 ].join(" ")}
               >
                 {showSymbol && (
                   <span
+                    key={symbolIndex}
                     className={[
-                      "absolute inset-0 flex h-full w-full",
-                      "items-center whitespace-nowrap",
-                      "transition-all duration-[420ms]",
-                      "ease-[cubic-bezier(.22,1,.36,1)]",
+                      "animated-symbol absolute inset-0",
+                      "flex h-full w-full items-center justify-center",
+                      "whitespace-nowrap",
 
-                      // young은 가운데, 0과 榮은 왼쪽으로 당김
+                      // young은 작게, 0과 榮은 크게
                       symbolIndex === 0
-                        ? "justify-center"
-                        : "justify-start pl-[0.08em]",
-
-                      isSymbolChanging
-                        ? "translate-y-[-3px] scale-[0.98] opacity-0 blur-[14px]"
-                        : "translate-y-0 scale-100 opacity-100 blur-0",
-                    ].join(" ")}
+                        ? "text-[0.5em] tracking-[-0.055em]"
+                        : symbolIndex === 1
+                          ? "text-[1em] tracking-[-0.075em] -translate-x-[0.4em]" // 0
+                          : "text-[1.02em] tracking-[-0.09em] -translate-x-[0.18em]", // 榮
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
                   >
-                    <span
-                      key={symbolIndex}
-                      className={[
-                        "symbol-reveal inline-block",
-                        "origin-center",
-
-                        // young만 작은 크기
-                        symbolIndex === 0
-                          ? "text-[0.5em] tracking-[-0.055em]"
-                          : "text-[1em] tracking-[-0.075em]",
-
-                        // 0만 회전
-                        symbolIndex === 1 ? "symbol-zero" : "",
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                    >
-                      {morphTexts[symbolIndex]}
-                    </span>
+                    {morphTexts[symbolIndex]}
                   </span>
                 )}
               </span>
@@ -188,7 +151,7 @@ export default function MainVisual() {
           {/* 브랜드 메시지 */}
           <div
             className={[
-              "mt-2 transition-all duration-1000 md:mt-10",
+              "mt-2 transition-all duration-1000 md:mt-4",
               "ease-[cubic-bezier(.16,1,.3,1)]",
               showContent
                 ? "translate-y-0 opacity-100"
@@ -247,9 +210,6 @@ export default function MainVisual() {
       </a>
 
       <style jsx global>{`
-        /*
-          studio 글자 내부의 색상 이동
-        */
         .animated-text-fill {
           color: transparent;
           background-image: linear-gradient(
@@ -276,32 +236,37 @@ export default function MainVisual() {
           animation: textColorFlow 4.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
         }
 
-        /*
-          새 글자 등장:
-          Blur → 선명
-          흰색 → 빨간색 → 흰색
-        */
-        .symbol-reveal {
-          color: #ffffff;
+        .animated-symbol {
+          color: transparent;
+          background-image: linear-gradient(
+            115deg,
+            #ed1b36 0%,
+            #ed1b36 43%,
+            #ffffff 43%,
+            #ffffff 63%,
+            #bdbdbd 63%,
+            #bdbdbd 72%,
+            #ed1b36 72%,
+            #ed1b36 100%
+          );
+          background-size: 180% 100%;
+          background-position: 100% 50%;
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
 
-          text-shadow:
-            0 1px 0 rgba(255, 255, 255, 0.22),
-            0 8px 18px rgba(0, 0, 0, 0.3),
-            0 0 22px rgba(237, 27, 54, 0);
+          transform-origin: center;
 
           animation:
-            symbolBlurReveal 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-            symbolColorFlash 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+            symbolMorph 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+            symbolColorFlow 1.2s ease-in-out;
         }
 
-        /*
-          0만 한 바퀴 회전
-        */
         .symbol-zero {
           animation:
-            symbolBlurReveal 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-            symbolColorFlash 1.15s cubic-bezier(0.22, 1, 0.36, 1),
-            zeroRotate 1s cubic-bezier(0.65, 0, 0.35, 1);
+            symbolMorph 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+            symbolColorFlow 1.2s ease-in-out,
+            zeroRotate 0.85s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         .slogan-gradient {
@@ -323,49 +288,23 @@ export default function MainVisual() {
           animation: sloganFlow 3s ease-in-out infinite;
         }
 
-        @keyframes symbolBlurReveal {
+        @keyframes symbolMorph {
           0% {
             opacity: 0;
-            transform: translateY(5px) scale(0.98);
-            filter: blur(14px);
+            transform: translateY(12px) scaleX(0.55) scaleY(0.7);
+            filter: blur(10px);
           }
 
-          45% {
-            opacity: 0.7;
-            transform: translateY(2px) scale(0.99);
-            filter: blur(5px);
+          55% {
+            opacity: 1;
+            transform: translateY(-2px) scaleX(1.05) scaleY(1.04);
+            filter: blur(0);
           }
 
           100% {
             opacity: 1;
             transform: translateY(0) scale(1);
             filter: blur(0);
-          }
-        }
-
-        @keyframes symbolColorFlash {
-          0% {
-            color: #ffffff;
-            text-shadow:
-              0 1px 0 rgba(255, 255, 255, 0.2),
-              0 8px 18px rgba(0, 0, 0, 0.3),
-              0 0 20px rgba(237, 27, 54, 0);
-          }
-
-          42% {
-            color: #ed1b36;
-            text-shadow:
-              0 1px 0 rgba(255, 255, 255, 0.12),
-              0 8px 18px rgba(0, 0, 0, 0.35),
-              0 0 28px rgba(237, 27, 54, 0.45);
-          }
-
-          100% {
-            color: #ffffff;
-            text-shadow:
-              0 1px 0 rgba(255, 255, 255, 0.22),
-              0 8px 18px rgba(0, 0, 0, 0.3),
-              0 0 22px rgba(237, 27, 54, 0);
           }
         }
 
@@ -397,6 +336,16 @@ export default function MainVisual() {
           }
         }
 
+        @keyframes symbolColorFlow {
+          0% {
+            background-position: 100% 50%;
+          }
+
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
         @keyframes sloganFlow {
           0%,
           100% {
@@ -424,7 +373,7 @@ export default function MainVisual() {
 
         @media (prefers-reduced-motion: reduce) {
           .animated-text-fill,
-          .symbol-reveal,
+          .animated-symbol,
           .symbol-zero,
           .slogan-gradient {
             animation: none;
