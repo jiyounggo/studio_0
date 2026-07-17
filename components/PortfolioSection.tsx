@@ -48,12 +48,12 @@ const portfolioItems: PortfolioItem[] = [
   },
   {
     id: 7,
-    image: "/images/portfolio/portfolio-07.jpg",
+    image: "/images/portfolio/portfolio-01.jpg",
     alt: "스튜디오 영 포트폴리오 일곱 번째",
   },
   {
     id: 8,
-    image: "/images/portfolio/portfolio-08.jpg",
+    image: "/images/portfolio/portfolio-02.jpg",
     alt: "스튜디오 영 포트폴리오 여덟 번째",
   },
 ];
@@ -219,7 +219,7 @@ export default function PortfolioSection() {
 
       {/* 포트폴리오 슬라이드 등장 영역 */}
       <div data-reveal data-delay="500" className="portfolio-reveal relative">
-        <div className="portfolio-swiper relative">
+        <div className="portfolio-swiper relative ">
           {/* 슬라이드 영역에만 좌우 그라데이션 */}
           <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-4 bg-gradient-to-r from-white to-transparent sm:w-10 lg:w-16" />
 
@@ -266,14 +266,14 @@ export default function PortfolioSection() {
                 spaceBetween: 22,
               },
             }}
-            className="!overflow-visible px-5 sm:px-8 lg:px-12"
+            className="!overflow-visible px-7 sm:px-8 lg:px-12"
           >
             {portfolioItems.map((portfolio, index) => (
               <SwiperSlide key={portfolio.id} className="!h-auto">
                 {({ isActive }) => (
                   <div
                     className={[
-                      "group relative aspect-[3/4] overflow-hidden rounded-[18px] bg-[#eeeeee]",
+                      "group relative aspect-[4/5] overflow-hidden rounded-[18px] bg-[#eeeeee]",
                       "border border-black/[0.07]",
                       "transition-all duration-500 ease-out sm:rounded-[22px]",
                       isActive
@@ -295,11 +295,6 @@ export default function PortfolioSection() {
 
                     {/* 이미지 위 테두리 */}
                     <div className="pointer-events-none absolute inset-0 rounded-[18px] border border-white/10 sm:rounded-[22px]" />
-
-                    {/* 왼쪽 위 포인트 */}
-                    <div className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-black/75 backdrop-blur-sm">
-                      <span className="h-2.5 w-2.5 rounded-full bg-[#ed1b36]" />
-                    </div>
                   </div>
                 )}
               </SwiperSlide>

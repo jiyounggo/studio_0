@@ -94,6 +94,8 @@ const serviceCards: ServiceCard[] = [
   },
 ];
 
+const mobileTabLabels = ["기업", "랜딩", "자사몰", "브랜드", "리뉴얼", "창업"];
+
 const consultingServices = [
   "1:1 맞춤 상담",
   "현재 사업 분석",
@@ -149,6 +151,7 @@ export default function NeedsSection() {
 
   const sectionRef = useRef<HTMLElement | null>(null);
   const [isSectionVisible, setIsSectionVisible] = useState(false);
+  const [activeMobileTab, setActiveMobileTab] = useState(0);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -298,6 +301,96 @@ export default function NeedsSection() {
     }
   };
 
+  const renderServiceCard = (
+    card: ServiceCard,
+    index: number,
+    isMobile = false,
+  ) => {
+    const Icon = card.icon;
+
+    return (
+      <button
+        key={card.title}
+        type="button"
+        onClick={() => openInquiryModal(card.title, card.services)}
+        style={{
+          transitionDelay: isSectionVisible ? `${180 + index * 110}ms` : "0ms",
+        }}
+        className={[
+          "group relative flex flex-col overflow-hidden rounded-[26px]",
+          isMobile ? "min-h-[340px]" : "min-h-[360px]",
+          "border-2 border-black/[0.11] bg-white p-6 text-left sm:p-7",
+          "shadow-[0_10px_28px_rgba(0,0,0,0.08)]",
+          "transition-[opacity,transform,box-shadow,border-color] duration-[800ms] ease-out",
+          isSectionVisible
+            ? "translate-y-0 opacity-100"
+            : "translate-y-14 opacity-0",
+          "hover:!translate-y-[-6px] hover:border-black/25",
+          "hover:shadow-[0_22px_55px_rgba(0,0,0,0.14)]",
+          "focus:outline-none focus-visible:ring-2",
+          "focus-visible:ring-[#ed1b36] focus-visible:ring-offset-4",
+          "motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none",
+        ].join(" ")}
+      >
+        <span className="absolute left-0 top-0 h-[7px] w-[78px] rounded-br-full bg-[#ed1b36] transition-all duration-300 group-hover:w-[145px]" />
+
+        <span className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full border border-black/[0.04]" />
+        <span className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full border border-[#ed1b36]/10" />
+
+        <div className="relative flex items-start gap-4 pt-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-black text-white shadow-[0_6px_16px_rgba(0,0,0,0.16)] transition-all duration-300 group-hover:bg-[#ed1b36] group-hover:shadow-[0_8px_22px_rgba(237,27,54,0.28)]">
+            <Icon className="h-5 w-5" strokeWidth={2.2} />
+          </span>
+
+          <div className="min-w-0 pt-0.5">
+            <h3 className="text-[21px] font-black leading-[1.3] tracking-[-0.045em] text-black sm:text-[25px]">
+              {card.title}
+            </h3>
+
+            <p className="mt-2 text-sm font-semibold leading-6 text-black/50">
+              {card.description}
+            </p>
+          </div>
+        </div>
+
+        <div className="relative mt-5 rounded-[18px] bg-[#f3f3f3] px-5 py-4 sm:mt-6">
+          <div className="mb-4 flex items-center justify-between">
+            <p className="text-[13px] font-black tracking-[-0.025em] text-black/55">
+              추천 서비스
+            </p>
+            <span className="h-2 w-2 rounded-full bg-[#ed1b36]" />
+          </div>
+
+          <ul className="space-y-2.5 sm:space-y-3">
+            {card.services.map((service) => (
+              <li
+                key={service}
+                className="flex items-center gap-3 text-[15px] font-extrabold tracking-[-0.03em] text-black/80"
+              >
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.08)]">
+                  <Check className="h-3 w-3 text-[#ed1b36]" strokeWidth={3} />
+                </span>
+                {service}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="relative mt-auto pt-5 sm:pt-6">
+          <div className="flex h-12 w-full items-center justify-between rounded-full bg-black px-5 text-sm font-black text-white transition-all duration-300 group-hover:bg-[#ed1b36] group-hover:shadow-[0_10px_24px_rgba(237,27,54,0.24)]">
+            <span>문의하기</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
+              <ArrowRight
+                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                strokeWidth={2.5}
+              />
+            </span>
+          </div>
+        </div>
+      </button>
+    );
+  };
+
   return (
     <>
       <section
@@ -349,106 +442,74 @@ export default function NeedsSection() {
             </p>
           </div>
 
-          {/* 서비스 카드 */}
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 pt-20">
-            {serviceCards.map((card, index) => {
-              const Icon = card.icon;
+          {/* 모바일: 탭을 누르면 선택한 카드 1개만 표시 */}
+          <div className="pt-12 md:hidden">
+            <div className="-mx-5 overflow-x-auto px-5 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div
+                className="flex min-w-max gap-2"
+                role="tablist"
+                aria-label="필요한 서비스 선택"
+              >
+                {serviceCards.map((card, index) => {
+                  const Icon = card.icon;
+                  const isActive = activeMobileTab === index;
 
-              return (
+                  return (
+                    <button
+                      key={card.title}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      aria-controls={`mobile-service-panel-${index}`}
+                      onClick={() => setActiveMobileTab(index)}
+                      className={[
+                        "flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-black transition",
+                        isActive
+                          ? "border-black bg-black text-white shadow-[0_8px_20px_rgba(0,0,0,0.16)]"
+                          : "border-black/10 bg-white text-black/55",
+                      ].join(" ")}
+                    >
+                      <Icon className="h-4 w-4" strokeWidth={2.3} />
+                      {mobileTabLabels[index]}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div
+              id={`mobile-service-panel-${activeMobileTab}`}
+              role="tabpanel"
+              className="mt-5"
+            >
+              {renderServiceCard(
+                serviceCards[activeMobileTab],
+                activeMobileTab,
+                true,
+              )}
+            </div>
+
+            <div className="mt-4 flex items-center justify-center gap-2">
+              {serviceCards.map((card, index) => (
                 <button
                   key={card.title}
                   type="button"
-                  onClick={() => openInquiryModal(card.title, card.services)}
-                  style={{
-                    transitionDelay: isSectionVisible
-                      ? `${180 + index * 110}ms`
-                      : "0ms",
-                  }}
+                  onClick={() => setActiveMobileTab(index)}
+                  aria-label={`${index + 1}번째 서비스 보기`}
                   className={[
-                    "group relative flex min-h-[360px] flex-col overflow-hidden rounded-[26px]",
-                    "border-2 border-black/[0.11] bg-white p-6 text-left sm:p-7",
-                    "shadow-[0_10px_28px_rgba(0,0,0,0.08)]",
-                    "transition-[opacity,transform,box-shadow,border-color] duration-[800ms] ease-out",
-                    isSectionVisible
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-14 opacity-0",
-                    "hover:!translate-y-[-6px] hover:border-black/25",
-                    "hover:shadow-[0_22px_55px_rgba(0,0,0,0.14)]",
-                    "focus:outline-none focus-visible:ring-2",
-                    "focus-visible:ring-[#ed1b36] focus-visible:ring-offset-4",
-                    "motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none",
+                    "h-2 rounded-full transition-all duration-300",
+                    activeMobileTab === index
+                      ? "w-7 bg-[#ed1b36]"
+                      : "w-2 bg-black/15",
                   ].join(" ")}
-                >
-                  {/* 카드 상단 빨간 포인트 */}
-                  <span className="absolute left-0 top-0 h-[7px] w-[78px] rounded-br-full bg-[#ed1b36] transition-all duration-300 group-hover:w-[145px]" />
+                />
+              ))}
+            </div>
+          </div>
 
-                  {/* 카드 내부 원형 장식 */}
-                  <span className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full border border-black/[0.04]" />
-
-                  <span className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full border border-[#ed1b36]/10" />
-
-                  {/* 제목 영역 */}
-                  <div className="relative flex items-start gap-4 pt-4">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-black text-white shadow-[0_6px_16px_rgba(0,0,0,0.16)] transition-all duration-300 group-hover:bg-[#ed1b36] group-hover:shadow-[0_8px_22px_rgba(237,27,54,0.28)]">
-                      <Icon className="h-5 w-5" strokeWidth={2.2} />
-                    </span>
-
-                    <div className="min-w-0 pt-0.5">
-                      <h3 className="text-[22px] font-black leading-[1.3] tracking-[-0.045em] text-black sm:text-[25px]">
-                        {card.title}
-                      </h3>
-
-                      <p className="mt-2 text-sx font-semibold leading-6 text-black/50">
-                        {card.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* 추천 서비스 영역 */}
-                  <div className="relative mt-6 rounded-[18px] bg-[#f3f3f3] px-5 py-4">
-                    <div className="mb-4 flex items-center justify-between">
-                      <p className="text-[13px] font-black tracking-[-0.025em] text-black/55">
-                        추천 서비스
-                      </p>
-
-                      <span className="h-2 w-2 rounded-full bg-[#ed1b36]" />
-                    </div>
-
-                    <ul className="space-y-3">
-                      {card.services.map((service) => (
-                        <li
-                          key={service}
-                          className="flex items-center gap-3 text-[15px] font-extrabold tracking-[-0.03em] text-black/80"
-                        >
-                          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.08)]">
-                            <Check
-                              className="h-3 w-3 text-[#ed1b36]"
-                              strokeWidth={3}
-                            />
-                          </span>
-
-                          {service}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* 문의 버튼 */}
-                  <div className="relative mt-auto pt-6">
-                    <div className="flex h-12 w-full items-center justify-between rounded-full bg-black px-5 text-sm font-black text-white transition-all duration-300 group-hover:bg-[#ed1b36] group-hover:shadow-[0_10px_24px_rgba(237,27,54,0.24)]">
-                      <span>문의하기</span>
-
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
-                        <ArrowRight
-                          className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                          strokeWidth={2.5}
-                        />
-                      </span>
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
+          {/* 태블릿·PC: 기존처럼 전체 카드 표시 */}
+          <div className="hidden gap-8 pt-20 md:grid md:grid-cols-2 xl:grid-cols-3">
+            {serviceCards.map((card, index) => renderServiceCard(card, index))}
           </div>
 
           {/* 어떤 서비스인지 모르는 경우 */}
@@ -464,7 +525,7 @@ export default function NeedsSection() {
               transitionDelay: isSectionVisible ? "900ms" : "0ms",
             }}
             className={[
-              "group relative mt-6 flex w-full flex-col justify-between gap-8 overflow-hidden rounded-[28px]",
+              "group relative mt-8 flex w-full flex-col justify-between gap-8 overflow-hidden rounded-[28px]",
               "border-2 border-black bg-black p-7 text-left text-white",
               "shadow-[0_14px_36px_rgba(0,0,0,0.16)] sm:flex-row sm:items-center sm:p-9 lg:p-11",
               "transition-[opacity,transform,background-color,box-shadow] duration-[800ms] ease-out",
