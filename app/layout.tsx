@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import QuickMenu from "@/components/common/QuickMenu";
 import Header from "@/components/common/Header";
-
+import Footer from "@/components/common/Footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -33,6 +33,8 @@ export default function RootLayout({
         <Header />
         <QuickMenu />
         {children}
+
+        <Footer />
       </body>
     </html>
   );

@@ -152,6 +152,8 @@ export default function NeedsSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [isSectionVisible, setIsSectionVisible] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState(0);
+  const mobileTabsRef = useRef<HTMLDivElement | null>(null);
+  const [showMobileScrollHint, setShowMobileScrollHint] = useState(true);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -177,6 +179,35 @@ export default function NeedsSection() {
 
     return () => {
       observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const tabsElement = mobileTabsRef.current;
+
+    if (!tabsElement) {
+      return;
+    }
+
+    const checkScrollPosition = () => {
+      const remainingScroll =
+        tabsElement.scrollWidth -
+        tabsElement.clientWidth -
+        tabsElement.scrollLeft;
+
+      setShowMobileScrollHint(remainingScroll > 12);
+    };
+
+    checkScrollPosition();
+
+    tabsElement.addEventListener("scroll", checkScrollPosition, {
+      passive: true,
+    });
+    window.addEventListener("resize", checkScrollPosition);
+
+    return () => {
+      tabsElement.removeEventListener("scroll", checkScrollPosition);
+      window.removeEventListener("resize", checkScrollPosition);
     };
   }, []);
 
@@ -441,9 +472,21 @@ export default function NeedsSection() {
               필요한 서비스를 바로 안내해드립니다.
             </p>
           </div>
-
           {/* 모바일: 탭을 누르면 선택한 카드 1개만 표시 */}
           <div className="pt-12 md:hidden">
+            {/* 가로 스크롤 안내 */}
+            <div className="mb-3 flex items-center justify-end gap-1.5 pr-1">
+              <span className="text-[11px] font-bold tracking-[-0.02em] text-black/35">
+                좌우로 밀어보세요
+              </span>
+
+              <ArrowRight
+                className="h-3.5 w-3.5 animate-pulse text-[#ed1b36]"
+                strokeWidth={2.5}
+              />
+            </div>
+
+            {/* 가로 스크롤 탭 */}
             <div className="-mx-5 overflow-x-auto px-5 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <div
                 className="flex min-w-max gap-2"
@@ -463,13 +506,14 @@ export default function NeedsSection() {
                       aria-controls={`mobile-service-panel-${index}`}
                       onClick={() => setActiveMobileTab(index)}
                       className={[
-                        "flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-black transition",
+                        "flex h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-black transition",
                         isActive
                           ? "border-black bg-black text-white shadow-[0_8px_20px_rgba(0,0,0,0.16)]"
                           : "border-black/10 bg-white text-black/55",
                       ].join(" ")}
                     >
                       <Icon className="h-4 w-4" strokeWidth={2.3} />
+
                       {mobileTabLabels[index]}
                     </button>
                   );
@@ -477,6 +521,7 @@ export default function NeedsSection() {
               </div>
             </div>
 
+            {/* 선택된 서비스 카드 */}
             <div
               id={`mobile-service-panel-${activeMobileTab}`}
               role="tabpanel"
@@ -489,6 +534,7 @@ export default function NeedsSection() {
               )}
             </div>
 
+            {/* 현재 선택된 탭 표시 */}
             <div className="mt-4 flex items-center justify-center gap-2">
               {serviceCards.map((card, index) => (
                 <button
