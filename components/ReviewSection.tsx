@@ -253,11 +253,6 @@ export default function ReviewSection() {
       </div>
 
       <style jsx global>{`
-        /*
-         * IntersectionObserver 등장 효과
-         * 화면에 들어오기 전에는 아래쪽에 숨겨져 있다가
-         * 감지되면 천천히 위로 올라옵니다.
-         */
         .review-reveal {
           opacity: 0;
           transform: translateY(80px);
@@ -274,22 +269,28 @@ export default function ReviewSection() {
 
         @keyframes review-marquee-left {
           from {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
           }
 
           to {
-            transform: translateX(calc(-50% - 10px));
+            transform: translate3d(calc(-50% - 10px), 0, 0);
           }
         }
 
         @keyframes review-marquee-right {
           from {
-            transform: translateX(calc(-50% - 10px));
+            transform: translate3d(calc(-50% - 10px), 0, 0);
           }
 
           to {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
           }
+        }
+
+        .review-track {
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          will-change: transform;
         }
 
         .review-track-left {
@@ -300,30 +301,24 @@ export default function ReviewSection() {
           animation: review-marquee-right 48s linear infinite;
         }
 
-        .review-slider:hover .review-track {
-          animation-play-state: paused;
+        @media (hover: hover) and (pointer: fine) {
+          .review-slider:hover .review-track {
+            animation-play-state: paused;
+          }
         }
 
         @media (max-width: 640px) {
+          .review-reveal {
+            transform: translateY(45px);
+            transition-duration: 1s;
+          }
+
           .review-track-left {
             animation-duration: 32s;
           }
 
           .review-track-right {
             animation-duration: 36s;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .review-reveal {
-            opacity: 1;
-            transform: none;
-            transition: none;
-          }
-
-          .review-track-left,
-          .review-track-right {
-            animation: none;
           }
         }
       `}</style>

@@ -263,7 +263,7 @@ export default function ContactSection() {
             className="contact-reveal max-w-[420px] text-[15px] font-semibold leading-7 text-black/55 sm:text-[17px]"
           >
             아직 구체적인 계획이 없어도 괜찮아요.
-            <br className="hidden sm:block" />
+            <br />
             현재 상황에 맞는 방향부터 함께 찾아드릴게요.
           </p>
         </div>
