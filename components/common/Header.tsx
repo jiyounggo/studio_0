@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import Image from "next/image";
 const navItems = [
   {
     label: "ABOUT",
@@ -80,17 +80,12 @@ export default function Header() {
             aria-label="Studio Young 홈으로 이동"
             className="group relative z-50 flex items-center"
           >
-            <span className="text-[22px] font-black leading-none tracking-[-0.055em] text-white sm:text-[25px]">
-              studio
-            </span>
-
-            <span className="mx-[3px] mt-[8px] block h-[3px] w-[15px] bg-[#ed1b36] transition-all duration-300 group-hover:w-[21px]" />
-
-            <span className="text-[22px] font-black leading-none tracking-[-0.055em] text-white sm:text-[25px]">
-              영
-            </span>
-
-            <span className="ml-[3px] mt-[-15px] h-[5px] w-[5px] rounded-full bg-[#ed1b36]" />
+            <Image
+              alt="로고"
+              src="/images/logo_long_w.png"
+              width={200}
+              height={200}
+            ></Image>
           </Link>
 
           {/* PC 메뉴 */}
@@ -151,7 +146,7 @@ export default function Header() {
         >
           <div className="mx-auto w-full max-w-[520px]">
             <p className="mb-8 text-[10px] font-bold tracking-[0.3em] text-[#ed1b36]">
-              STUDIO_YOUNG
+              STUDIO_Young
             </p>
 
             <div className="border-t border-white/15">
@@ -187,7 +182,7 @@ export default function Header() {
               </p>
 
               <p className="mt-5 text-[11px] font-bold tracking-[0.17em] text-white">
-                MAKE IT <span className="text-[#ed1b36]">YOUNG.</span>
+                MAKE IT <span className="text-[#ed1b36]">Young.</span>
               </p>
             </div>
           </div>

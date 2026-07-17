@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-const morphTexts = ["young", "0", "榮"] as const;
+
+const morphTexts = ["Young", "0", "榮"] as const;
 
 const symbolDurations = [
-  1800, // 영
+  1800, // Young
   900, // 0
   2200, // 榮
 ] as const;
@@ -25,15 +26,16 @@ export default function MainVisual() {
 
       window.setTimeout(() => {
         setShowUnderline(true);
-      }, 1200),
+      }, 1000),
 
       window.setTimeout(() => {
         setShowSymbol(true);
-      }, 2000),
+      }, 1700),
 
+      // 기존 5000ms → 2800ms
       window.setTimeout(() => {
         setShowContent(true);
-      }, 5000),
+      }, 2800),
     ];
 
     return () => {
@@ -41,23 +43,17 @@ export default function MainVisual() {
     };
   }, []);
 
-  /* 영 → 0 → 榮 무한 반복 */
+  /* Young → 0 → 榮 무한 반복 */
   useEffect(() => {
     if (!showSymbol) return;
 
-    let timeoutId: number;
+    const currentDuration = symbolDurations[symbolIndex];
 
-    const changeSymbol = () => {
-      const currentDuration = symbolDurations[symbolIndex];
-
-      timeoutId = window.setTimeout(() => {
-        setSymbolIndex((currentIndex) => {
-          return (currentIndex + 1) % morphTexts.length;
-        });
-      }, currentDuration);
-    };
-
-    changeSymbol();
+    const timeoutId = window.setTimeout(() => {
+      setSymbolIndex((currentIndex) => {
+        return (currentIndex + 1) % morphTexts.length;
+      });
+    }, currentDuration);
 
     return () => {
       window.clearTimeout(timeoutId);
@@ -68,7 +64,7 @@ export default function MainVisual() {
     <section className="relative min-h-screen overflow-hidden bg-[#0b0b0b] text-white">
       {/* 배경의 은은한 붉은 빛 */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ed1b36]/[0.035] blur-[140px]" />
+        <div className="absolute left-1/2 top-[45%] h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ed1b36]/[0.045] blur-[130px] sm:h-[560px] sm:w-[560px]" />
       </div>
 
       <div className="relative mx-auto flex min-h-screen max-w-[1500px] items-center justify-center px-5 py-20 lg:px-10">
@@ -78,15 +74,15 @@ export default function MainVisual() {
             <div
               className={[
                 "flex items-baseline justify-center whitespace-nowrap",
-                "text-[56px] font-black leading-none",
-                "sm:text-[82px] md:text-[110px] lg:text-[136px]",
+                "text-[58px] leading-none",
+                "sm:text-[84px] md:text-[112px] lg:text-[138px]",
               ].join(" ")}
             >
               {/* studio */}
               <h1
                 className={[
-                  "animated-text-fill block pr-[0.04em]",
-                  "tracking-[-0.055em]",
+                  "studio-logo-font animated-text-fill block",
+                  "pr-[0.025em] tracking-[-0.065em]",
                   "transition-all duration-1000",
                   "ease-[cubic-bezier(.16,1,.3,1)]",
                   showStudio
@@ -101,9 +97,9 @@ export default function MainVisual() {
               <span
                 aria-hidden="true"
                 className={[
-                  "mx-[0.04em] inline-block",
-                  "h-[0.05em] w-[0.4em]",
-                  "translate-y-[0.08em] rounded-full",
+                  "mx-[0.035em] inline-block",
+                  "h-[0.035em] w-[0.38em]",
+                  "translate-y-[0.04em] rounded-full",
                   "bg-[#ed1b36]",
                   "shadow-[0_0_18px_rgba(237,27,54,0.65)]",
                   "origin-left transition-all duration-700",
@@ -114,11 +110,11 @@ export default function MainVisual() {
                 ].join(" ")}
               />
 
-              {/* young → 0 → 榮 */}
+              {/* Young → 0 → 榮 */}
               <span
                 className={[
-                  "relative  inline-block",
-                  "h-[1em] w-[1.5em]",
+                  "relative inline-block h-[1em] w-[1.6em]",
+                  "translate-y-[0.08em]",
                   "transition-opacity duration-500",
                   showSymbol ? "opacity-100" : "opacity-0",
                 ].join(" ")}
@@ -128,15 +124,14 @@ export default function MainVisual() {
                     key={symbolIndex}
                     className={[
                       "animated-symbol absolute inset-0",
-                      "flex h-full w-full items-center justify-center",
+                      "flex h-full w-full items-center",
                       "whitespace-nowrap",
 
-                      // young은 작게, 0과 榮은 크게
                       symbolIndex === 0
-                        ? "text-[0.5em] tracking-[-0.055em]"
+                        ? "young-script-font justify-start pl-[0.08em] text-[0.7em]"
                         : symbolIndex === 1
-                          ? "text-[1em] tracking-[-0.075em] -translate-x-[0.4em]" // 0
-                          : "text-[1.02em] tracking-[-0.09em] -translate-x-[0.18em]", // 榮
+                          ? "symbol-bold justify-start pl-[0.04em] text-[0.88em]"
+                          : "symbol-bold justify-start pl-[0.04em] text-[0.84em]",
                     ]
                       .filter(Boolean)
                       .join(" ")}
@@ -151,11 +146,11 @@ export default function MainVisual() {
           {/* 브랜드 메시지 */}
           <div
             className={[
-              "mt-2 transition-all duration-1000 md:mt-4",
+              "mt-1 transition-all duration-700 md:mt-3",
               "ease-[cubic-bezier(.16,1,.3,1)]",
               showContent
-                ? "translate-y-0 opacity-100"
-                : "translate-y-6 opacity-0",
+                ? "translate-y-0 opacity-100 blur-0"
+                : "translate-y-4 opacity-0 blur-[2px]",
             ].join(" ")}
           >
             <div className="space-y-1.5">
@@ -180,7 +175,7 @@ export default function MainVisual() {
               <span className="h-px w-10 bg-[#ed1b36] md:w-14" />
 
               <p className="text-[15px] font-black tracking-[0.17em] sm:text-[17px] md:text-[20px]">
-                MAKE IT <span className="slogan-gradient">YOUNG.</span>
+                MAKE IT <span className="slogan-gradient">Young.</span>
               </p>
 
               <span className="h-px w-10 bg-[#ed1b36] md:w-14" />
@@ -196,7 +191,7 @@ export default function MainVisual() {
         className={[
           "absolute bottom-7 left-1/2",
           "flex -translate-x-1/2 flex-col items-center gap-3",
-          "transition-opacity duration-1000",
+          "transition-opacity duration-700",
           showContent ? "opacity-100" : "pointer-events-none opacity-0",
         ].join(" ")}
       >
@@ -210,8 +205,27 @@ export default function MainVisual() {
       </a>
 
       <style jsx global>{`
+        @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Italianno&display=swap");
+
+        .studio-logo-font {
+          font-family: "Cormorant Garamond", Georgia, serif;
+          font-weight: 500;
+        }
+
+        .young-script-font {
+          font-family: "Italianno", cursive;
+          font-weight: 400;
+          line-height: 1;
+        }
+
+        .symbol-bold {
+          font-family: Arial, "Noto Sans KR", sans-serif;
+          font-weight: 900;
+        }
+
         .animated-text-fill {
           color: transparent;
+
           background-image: linear-gradient(
             110deg,
             #ffffff 0%,
@@ -227,6 +241,7 @@ export default function MainVisual() {
             #ffffff 76%,
             #ffffff 100%
           );
+
           background-size: 240% 100%;
           background-position: 100% 50%;
           background-clip: text;
@@ -238,6 +253,7 @@ export default function MainVisual() {
 
         .animated-symbol {
           color: transparent;
+
           background-image: linear-gradient(
             115deg,
             #ed1b36 0%,
@@ -249,6 +265,7 @@ export default function MainVisual() {
             #ed1b36 72%,
             #ed1b36 100%
           );
+
           background-size: 180% 100%;
           background-position: 100% 50%;
           background-clip: text;
@@ -258,19 +275,13 @@ export default function MainVisual() {
           transform-origin: center;
 
           animation:
-            symbolMorph 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+            symbolAppear 0.65s cubic-bezier(0.16, 1, 0.3, 1),
             symbolColorFlow 1.2s ease-in-out;
-        }
-
-        .symbol-zero {
-          animation:
-            symbolMorph 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-            symbolColorFlow 1.2s ease-in-out,
-            zeroRotate 0.85s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         .slogan-gradient {
           color: transparent;
+
           background-image: linear-gradient(
             105deg,
             #ed1b36 0%,
@@ -280,6 +291,7 @@ export default function MainVisual() {
             #ed1b36 62%,
             #ed1b36 100%
           );
+
           background-size: 200% 100%;
           background-clip: text;
           -webkit-background-clip: text;
@@ -288,16 +300,17 @@ export default function MainVisual() {
           animation: sloganFlow 3s ease-in-out infinite;
         }
 
-        @keyframes symbolMorph {
+        /* 회전 없이 자연스럽게 등장 */
+        @keyframes symbolAppear {
           0% {
             opacity: 0;
-            transform: translateY(12px) scaleX(0.55) scaleY(0.7);
-            filter: blur(10px);
+            transform: translateY(10px) scale(0.96);
+            filter: blur(7px);
           }
 
-          55% {
+          60% {
             opacity: 1;
-            transform: translateY(-2px) scaleX(1.05) scaleY(1.04);
+            transform: translateY(-1px) scale(1.01);
             filter: blur(0);
           }
 
@@ -305,16 +318,6 @@ export default function MainVisual() {
             opacity: 1;
             transform: translateY(0) scale(1);
             filter: blur(0);
-          }
-        }
-
-        @keyframes zeroRotate {
-          0% {
-            rotate: 0deg;
-          }
-
-          100% {
-            rotate: 360deg;
           }
         }
 
@@ -374,7 +377,6 @@ export default function MainVisual() {
         @media (prefers-reduced-motion: reduce) {
           .animated-text-fill,
           .animated-symbol,
-          .symbol-zero,
           .slogan-gradient {
             animation: none;
           }
