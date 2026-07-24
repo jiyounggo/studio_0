@@ -85,6 +85,7 @@ export default function Header() {
               src="/images/logo_long_w.png"
               width={200}
               height={200}
+              className="max-sm:w-[120px]"
             ></Image>
           </Link>
 

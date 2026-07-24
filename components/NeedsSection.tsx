@@ -350,26 +350,26 @@ export default function NeedsSection() {
         className={[
           "group relative flex flex-col overflow-hidden rounded-[26px]",
           isMobile ? "min-h-[340px]" : "min-h-[360px]",
-          "border-2 border-black/[0.11] bg-white p-6 text-left sm:p-7",
+          "border-2 border-[#6857ef]/[0.14] bg-white p-6 text-left sm:p-7",
           "shadow-[0_10px_28px_rgba(0,0,0,0.08)]",
           "transition-[opacity,transform,box-shadow,border-color] duration-[800ms] ease-out",
           isSectionVisible
             ? "translate-y-0 opacity-100"
             : "translate-y-14 opacity-0",
-          "hover:!translate-y-[-6px] hover:border-black/25",
+          "hover:!translate-y-[-6px] hover:border-[#6857ef]/45",
           "hover:shadow-[0_22px_55px_rgba(0,0,0,0.14)]",
           "focus:outline-none focus-visible:ring-2",
-          "focus-visible:ring-[#ed1b36] focus-visible:ring-offset-4",
+          "focus-visible:ring-[#6857ef] focus-visible:ring-offset-4",
           "motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none",
         ].join(" ")}
       >
-        <span className="absolute left-0 top-0 h-[7px] w-[78px] rounded-br-full bg-[#ed1b36] transition-all duration-300 group-hover:w-[145px]" />
+        <span className="absolute left-0 top-0 h-[7px] w-[78px] rounded-br-full bg-[#6857ef] transition-all duration-300 group-hover:w-[145px]" />
 
-        <span className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full border border-black/[0.04]" />
-        <span className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full border border-[#ed1b36]/10" />
+        <span className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full border border-[#6857ef]/[0.07]" />
+        <span className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full border border-[#6857ef]/10" />
 
         <div className="relative flex items-start gap-4 pt-4">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-black text-white shadow-[0_6px_16px_rgba(0,0,0,0.16)] transition-all duration-300 group-hover:bg-[#ed1b36] group-hover:shadow-[0_8px_22px_rgba(237,27,54,0.28)]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-[#19152f] text-white shadow-[0_6px_16px_rgba(0,0,0,0.16)] transition-all duration-300 group-hover:bg-[#6857ef] group-hover:shadow-[0_8px_22px_rgba(104,87,239,0.28)]">
             <Icon className="h-5 w-5" strokeWidth={2.2} />
           </span>
 
@@ -384,12 +384,12 @@ export default function NeedsSection() {
           </div>
         </div>
 
-        <div className="relative mt-5 rounded-[18px] bg-[#f3f3f3] px-5 py-4 sm:mt-6">
+        <div className="relative mt-5 rounded-[18px] border border-[#6857ef]/[0.08] bg-[#f7f5ff] px-5 py-4 sm:mt-6">
           <div className="mb-4 flex items-center justify-between">
             <p className="text-[13px] font-black tracking-[-0.025em] text-black/55">
               추천 서비스
             </p>
-            <span className="h-2 w-2 rounded-full bg-[#ed1b36]" />
+            <span className="h-2 w-2 rounded-full bg-[#6857ef]" />
           </div>
 
           <ul className="space-y-2.5 sm:space-y-3">
@@ -399,7 +399,7 @@ export default function NeedsSection() {
                 className="flex items-center gap-3 text-[15px] font-extrabold tracking-[-0.03em] text-black/80"
               >
                 <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.08)]">
-                  <Check className="h-3 w-3 text-[#ed1b36]" strokeWidth={3} />
+                  <Check className="h-3 w-3 text-[#6857ef]" strokeWidth={3} />
                 </span>
                 {service}
               </li>
@@ -408,7 +408,7 @@ export default function NeedsSection() {
         </div>
 
         <div className="relative mt-auto pt-5 sm:pt-6">
-          <div className="flex h-12 w-full items-center justify-between rounded-full bg-black px-5 text-sm font-black text-white transition-all duration-300 group-hover:bg-[#ed1b36] group-hover:shadow-[0_10px_24px_rgba(237,27,54,0.24)]">
+          <div className="flex h-12 w-full items-center justify-between rounded-full bg-black px-5 text-sm font-black text-white transition-all duration-300 group-hover:bg-[#6857ef] group-hover:shadow-[0_10px_24px_rgba(104,87,239,0.24)]">
             <span>문의하기</span>
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
               <ArrowRight
@@ -426,26 +426,26 @@ export default function NeedsSection() {
     <>
       <section
         ref={sectionRef}
-        className="relative overflow-hidden bg-[#f6f6f6] py-20 text-black sm:py-24 lg:py-28"
+        className="relative overflow-hidden bg-[linear-gradient(180deg,#f8f7ff_0%,#f2efff_100%)] py-20 text-black sm:py-24 lg:py-28"
       >
         {/* 오른쪽 위 행성 장식 */}
-        <div className="pointer-events-none absolute -right-28 top-8 hidden h-[380px] w-[380px] rounded-full border border-black/[0.05] lg:block">
-          <div className="absolute left-1/2 top-1/2 h-[270px] w-[270px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-black/[0.06]" />
+        <div className="pointer-events-none absolute -right-28 top-8 hidden h-[380px] w-[380px] rounded-full border border-[#6857ef]/[0.08] lg:block">
+          <div className="absolute left-1/2 top-1/2 h-[270px] w-[270px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#6857ef]/[0.09]" />
 
-          <div className="absolute left-1/2 top-1/2 h-[165px] w-[165px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#ed1b36]/20" />
+          <div className="absolute left-1/2 top-1/2 h-[165px] w-[165px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#6857ef]/20" />
 
-          <div className="absolute left-[58px] top-[88px] h-4 w-4 rounded-full bg-[#ed1b36]" />
+          <div className="absolute left-[58px] top-[88px] h-4 w-4 rounded-full bg-[#6857ef]" />
 
-          <div className="absolute -left-14 top-1/2 h-[96px] w-[480px] -translate-y-1/2 -rotate-[12deg] rounded-[50%] border border-black/[0.07]" />
+          <div className="absolute -left-14 top-1/2 h-[96px] w-[480px] -translate-y-1/2 -rotate-[12deg] rounded-[50%] border border-[#6857ef]/[0.10]" />
 
-          <div className="absolute -left-8 top-1/2 h-[62px] w-[430px] -translate-y-1/2 -rotate-[12deg] rounded-[50%] border border-[#ed1b36]/12" />
+          <div className="absolute -left-8 top-1/2 h-[62px] w-[430px] -translate-y-1/2 -rotate-[12deg] rounded-[50%] border border-[#6857ef]/12" />
         </div>
 
         <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
           {/* 대제목 */}
           <div
             className={[
-              " flex flex-col justify-between gap-8 border-b-2 border-black pb-10  lg:flex-row lg:items-end",
+              " flex flex-col justify-between gap-8 border-b-2 border-[#211b47] pb-10  lg:flex-row lg:items-end",
               "transition-[opacity,transform] duration-[900ms] ease-out",
               "motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none",
               isSectionVisible
@@ -460,7 +460,7 @@ export default function NeedsSection() {
                 <span className="relative inline-block">
                   <span className="relative z-10">필요</span>
 
-                  <span className="absolute bottom-[4px] left-0 h-[13px] w-full -rotate-1 bg-[#ed1b36]/22" />
+                  <span className="absolute bottom-[4px] left-0 h-[13px] w-full -rotate-1 bg-[#6857ef]/22" />
                 </span>
                 하신가요?
               </h2>
@@ -481,7 +481,7 @@ export default function NeedsSection() {
               </span>
 
               <ArrowRight
-                className="h-3.5 w-3.5 animate-pulse text-[#ed1b36]"
+                className="h-3.5 w-3.5 animate-pulse text-[#6857ef]"
                 strokeWidth={2.5}
               />
             </div>
@@ -508,7 +508,7 @@ export default function NeedsSection() {
                       className={[
                         "flex h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-black transition",
                         isActive
-                          ? "border-black bg-black text-white shadow-[0_8px_20px_rgba(0,0,0,0.16)]"
+                          ? "border-black bg-[#19152f] text-white shadow-[0_8px_20px_rgba(0,0,0,0.16)]"
                           : "border-black/10 bg-white text-black/55",
                       ].join(" ")}
                     >
@@ -545,7 +545,7 @@ export default function NeedsSection() {
                   className={[
                     "h-2 rounded-full transition-all duration-300",
                     activeMobileTab === index
-                      ? "w-7 bg-[#ed1b36]"
+                      ? "w-7 bg-[#6857ef]"
                       : "w-2 bg-black/15",
                   ].join(" ")}
                 />
@@ -572,14 +572,14 @@ export default function NeedsSection() {
             }}
             className={[
               "group relative mt-8 flex w-full flex-col justify-between gap-8 overflow-hidden rounded-[28px]",
-              "border-2 border-black bg-black p-7 text-left text-white",
+              "border-2 border-[#19152f] bg-[#19152f] p-7 text-left text-white",
               "shadow-[0_14px_36px_rgba(0,0,0,0.16)] sm:flex-row sm:items-center sm:p-9 lg:p-11",
               "transition-[opacity,transform,background-color,box-shadow] duration-[800ms] ease-out",
               isSectionVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-14 opacity-0",
-              "hover:!translate-y-[-4px] hover:bg-[#ed1b36]",
-              "hover:shadow-[0_20px_48px_rgba(237,27,54,0.24)]",
+              "hover:!translate-y-[-4px] hover:bg-[#6857ef]",
+              "hover:shadow-[0_20px_48px_rgba(104,87,239,0.24)]",
               "motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none",
             ].join(" ")}
           >
@@ -618,7 +618,7 @@ export default function NeedsSection() {
       {/* 문의 팝업 */}
       {isModalOpen && selectedInquiry && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/65 px-4 py-5 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#19152f]/70 px-4 py-5 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby="inquiry-modal-title"
@@ -641,7 +641,7 @@ export default function NeedsSection() {
 
             {isSuccess ? (
               <div className="flex min-h-[420px] flex-col items-center justify-center px-6 py-14 text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#ed1b36] text-white">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#6857ef] text-white">
                   <CheckCircle2 className="h-7 w-7" />
                 </div>
 
@@ -676,8 +676,8 @@ export default function NeedsSection() {
                   </p>
                 </div>
 
-                <div className="border-b border-black/10 bg-[#f3f3f3] px-6 py-5 sm:px-9">
-                  <p className="text-xs font-black text-[#ed1b36]">
+                <div className="border-b border-[#6857ef]/10 bg-[#f7f5ff] px-6 py-5 sm:px-9">
+                  <p className="text-xs font-black text-[#6857ef]">
                     선택한 서비스
                   </p>
 
@@ -695,7 +695,7 @@ export default function NeedsSection() {
                     <label>
                       <span className="mb-2 block text-sm font-bold">
                         이름
-                        <span className="ml-1 text-[#ed1b36]">*</span>
+                        <span className="ml-1 text-[#6857ef]">*</span>
                       </span>
 
                       <input
@@ -707,14 +707,14 @@ export default function NeedsSection() {
                         maxLength={50}
                         autoComplete="name"
                         placeholder="이름"
-                        className="h-[50px] w-full rounded-[12px] border border-black/15 px-4 text-sm outline-none transition focus:border-[#ed1b36]"
+                        className="h-[50px] w-full rounded-[12px] border border-black/15 px-4 text-sm outline-none transition focus:border-[#6857ef]"
                       />
                     </label>
 
                     <label>
                       <span className="mb-2 block text-sm font-bold">
                         휴대폰 번호
-                        <span className="ml-1 text-[#ed1b36]">*</span>
+                        <span className="ml-1 text-[#6857ef]">*</span>
                       </span>
 
                       <input
@@ -729,7 +729,7 @@ export default function NeedsSection() {
                         inputMode="numeric"
                         autoComplete="tel"
                         placeholder="010-0000-0000"
-                        className="h-[50px] w-full rounded-[12px] border border-black/15 px-4 text-sm outline-none transition focus:border-[#ed1b36]"
+                        className="h-[50px] w-full rounded-[12px] border border-black/15 px-4 text-sm outline-none transition focus:border-[#6857ef]"
                       />
                     </label>
 
@@ -746,7 +746,7 @@ export default function NeedsSection() {
                         }
                         maxLength={100}
                         placeholder="상호명 또는 브랜드명"
-                        className="h-[50px] w-full rounded-[12px] border border-black/15 px-4 text-sm outline-none transition focus:border-[#ed1b36]"
+                        className="h-[50px] w-full rounded-[12px] border border-black/15 px-4 text-sm outline-none transition focus:border-[#6857ef]"
                       />
                     </label>
 
@@ -760,7 +760,7 @@ export default function NeedsSection() {
                         onChange={(event) =>
                           updateForm("budget", event.target.value)
                         }
-                        className="h-[50px] w-full rounded-[12px] border border-black/15 bg-white px-4 text-sm outline-none transition focus:border-[#ed1b36]"
+                        className="h-[50px] w-full rounded-[12px] border border-black/15 bg-white px-4 text-sm outline-none transition focus:border-[#6857ef]"
                       >
                         <option value="">예산 선택</option>
 
@@ -786,12 +786,12 @@ export default function NeedsSection() {
                       maxLength={1500}
                       rows={3}
                       placeholder="필요한 작업이나 궁금한 내용을 입력해주세요."
-                      className="w-full resize-none rounded-[12px] border border-black/15 px-4 py-3 text-sm leading-6 outline-none transition focus:border-[#ed1b36]"
+                      className="w-full resize-none rounded-[12px] border border-black/15 px-4 py-3 text-sm leading-6 outline-none transition focus:border-[#6857ef]"
                     />
                   </label>
 
                   {errorMessage && (
-                    <p className="mt-4 rounded-[12px] bg-[#ed1b36]/5 px-4 py-3 text-sm font-bold text-[#ed1b36]">
+                    <p className="mt-4 rounded-[12px] bg-[#6857ef]/5 px-4 py-3 text-sm font-bold text-[#6857ef]">
                       {errorMessage}
                     </p>
                   )}
@@ -799,7 +799,7 @@ export default function NeedsSection() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-full bg-[#ed1b36] text-sm font-black text-white transition hover:bg-[#cf142c] disabled:opacity-60"
+                    className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-full bg-[#6857ef] text-sm font-black text-white transition hover:bg-[#5948dc] disabled:opacity-60"
                   >
                     {isSubmitting ? (
                       <>

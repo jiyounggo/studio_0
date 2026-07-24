@@ -1,387 +1,883 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 
-const morphTexts = ["Young", "0", "榮"] as const;
+import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 
-const symbolDurations = [
-  1800, // Young
-  900, // 0
-  2200, // 榮
-] as const;
+import "swiper/css";
+
+type ShowcaseMedia =
+  | {
+      id: number;
+      type: "image";
+      src: string;
+      alt: string;
+    }
+  | {
+      id: number;
+      type: "video";
+      src: string;
+      poster?: string;
+      alt: string;
+    }
+  | {
+      id: number;
+      type: "youtube";
+      youtubeId: string;
+      alt: string;
+    };
+
+type StatItem = {
+  value: string;
+  label: string;
+  sub?: string;
+};
+
+/*
+ * 이미지 추가 방법
+ *
+ * {
+ *   id: 1,
+ *   type: "image",
+ *   src: "/images/home/main-visual-01.png",
+ *   alt: "작업 이미지",
+ * }
+ *
+ * 직접 업로드한 MP4 영상 추가 방법
+ *
+ * {
+ *   id: 2,
+ *   type: "video",
+ *   src: "/videos/home/showcase-01.mp4",
+ *   poster: "/images/home/video-poster.jpg",
+ *   alt: "작업 영상",
+ * }
+ *
+ * 유튜브 영상 추가 방법
+ *
+ * {
+ *   id: 3,
+ *   type: "youtube",
+ *   youtubeId: "2DX50eCi3F4",
+ *   alt: "유튜브 작업 영상",
+ * }
+ */
+
+const showcaseMedia: ShowcaseMedia[] = [
+  {
+    id: 1,
+    type: "image",
+    src: "/images/home/main-visual-01.png",
+    alt: "스튜디오 영 작업 이미지 1",
+  },
+  {
+    id: 2,
+    type: "youtube",
+    youtubeId: "2DX50eCi3F4",
+    alt: "스튜디오 영 작업 영상",
+  },
+  {
+    id: 3,
+    type: "image",
+    src: "/images/home/main-visual-02.png",
+    alt: "스튜디오 영 작업 이미지 2",
+  },
+  {
+    id: 4,
+    type: "image",
+    src: "/images/home/main-visual-03.png",
+    alt: "스튜디오 영 작업 이미지 3",
+  },
+  {
+    id: 5,
+    type: "image",
+    src: "/images/home/main-visual-04.png",
+    alt: "스튜디오 영 작업 이미지 4",
+  },
+  {
+    id: 6,
+    type: "image",
+    src: "/images/home/main-visual-05.png",
+    alt: "스튜디오 영 작업 이미지 5",
+  },
+];
+
+const stats: StatItem[] = [
+  {
+    value: "100+",
+    label: "Projects",
+  },
+  {
+    value: "50+",
+    label: "Clients",
+  },
+  {
+    value: "4.9",
+    sub: "/ 5",
+    label: "Client Review",
+  },
+  {
+    value: "99%",
+    label: "Satisfaction",
+  },
+];
+
+/*
+ * 이미지가 표시되는 시간
+ * 4500 = 4.5초
+ *
+ * 영상은 이 시간과 관계없이
+ * 영상이 끝난 후 다음으로 넘어감
+ */
+const IMAGE_SLIDE_DELAY = 4500;
 
 export default function MainVisual() {
-  const [showStudio, setShowStudio] = useState(false);
-  const [showUnderline, setShowUnderline] = useState(false);
-  const [showSymbol, setShowSymbol] = useState(false);
-  const [symbolIndex, setSymbolIndex] = useState(0);
-  const [showContent, setShowContent] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  /* 첫 등장 순서 */
-  useEffect(() => {
-    const timers = [
-      window.setTimeout(() => {
-        setShowStudio(true);
-      }, 300),
+  const swiperRef = useRef<SwiperType | null>(null);
 
-      window.setTimeout(() => {
-        setShowUnderline(true);
-      }, 1000),
+  const activeMedia = showcaseMedia[activeIndex];
 
-      window.setTimeout(() => {
-        setShowSymbol(true);
-      }, 1700),
+  const moveToSlide = useCallback((index: number) => {
+    const swiper = swiperRef.current;
 
-      // 기존 5000ms → 2800ms
-      window.setTimeout(() => {
-        setShowContent(true);
-      }, 2800),
-    ];
+    if (!swiper) {
+      return;
+    }
 
-    return () => {
-      timers.forEach((timer) => window.clearTimeout(timer));
-    };
+    if (showcaseMedia.length > 1) {
+      swiper.slideToLoop(index);
+      return;
+    }
+
+    swiper.slideTo(index);
   }, []);
 
-  /* Young → 0 → 榮 무한 반복 */
+  const moveToNextSlide = useCallback(() => {
+    const swiper = swiperRef.current;
+
+    if (!swiper || swiper.animating) {
+      return;
+    }
+
+    swiper.slideNext();
+  }, []);
+
+  /*
+   * 현재 미디어가 이미지일 때만 타이머 실행
+   *
+   * MP4와 유튜브 영상일 때는 타이머를 만들지 않고,
+   * 영상의 onEnded 이벤트가 발생했을 때 넘어감
+   */
   useEffect(() => {
-    if (!showSymbol) return;
+    if (!activeMedia || activeMedia.type !== "image") {
+      return;
+    }
 
-    const currentDuration = symbolDurations[symbolIndex];
-
-    const timeoutId = window.setTimeout(() => {
-      setSymbolIndex((currentIndex) => {
-        return (currentIndex + 1) % morphTexts.length;
-      });
-    }, currentDuration);
+    const timer = window.setTimeout(() => {
+      moveToNextSlide();
+    }, IMAGE_SLIDE_DELAY);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      window.clearTimeout(timer);
     };
-  }, [showSymbol, symbolIndex]);
+  }, [activeIndex, activeMedia, moveToNextSlide]);
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#0b0b0b] text-white">
-      {/* 배경의 은은한 붉은 빛 */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-[45%] h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ed1b36]/[0.045] blur-[130px] sm:h-[560px] sm:w-[560px]" />
+    <section
+      id="home"
+      className="relative overflow-hidden bg-[linear-gradient(135deg,#f8f7ff_0%,#efedff_48%,#f5f2ff_100%)] text-[#111111]"
+    >
+      {/* 배경 장식 */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute -right-[220px] -top-[260px] h-[680px] w-[680px] rounded-full bg-[#7563ff]/25 blur-[140px]" />
+
+        <div className="absolute left-[20%] top-[25%] h-[500px] w-[650px] rounded-full bg-[#b2a7ff]/20 blur-[150px]" />
+
+        <div className="absolute -bottom-[260px] -left-[180px] h-[600px] w-[600px] rounded-full bg-[#8574ff]/15 blur-[150px]" />
       </div>
 
-      <div className="relative mx-auto flex min-h-screen max-w-[1500px] items-center justify-center px-5 py-20 lg:px-10">
-        <div className="flex w-full flex-col items-center text-center">
-          {/* 메인 로고 */}
-          <div className="flex min-h-[150px] items-center justify-center sm:min-h-[190px] md:min-h-[230px]">
-            <div
-              className={[
-                "flex items-baseline justify-center whitespace-nowrap",
-                "text-[58px] leading-none",
-                "sm:text-[84px] md:text-[112px] lg:text-[138px]",
-              ].join(" ")}
-            >
-              {/* studio */}
-              <h1
-                className={[
-                  "studio-logo-font animated-text-fill block",
-                  "pr-[0.025em] tracking-[-0.065em]",
-                  "transition-all duration-1000",
-                  "ease-[cubic-bezier(.16,1,.3,1)]",
-                  showStudio
-                    ? "translate-y-0 opacity-100 blur-0"
-                    : "translate-y-5 opacity-0 blur-sm",
-                ].join(" ")}
-              >
-                studio
+      <div className="relative mx-auto max-w-[1600px] px-5 pb-16 pt-28 sm:px-8 sm:pt-32 lg:min-h-[880px] lg:px-12 lg:pb-20 lg:pt-26 xl:px-16">
+        <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12 xl:grid-cols-[0.82fr_1.18fr] xl:gap-16">
+          {/* 왼쪽 텍스트 영역 */}
+          <div className="relative z-20 flex flex-col lg:min-h-[690px]">
+            <div className="mb-10 flex items-center justify-between lg:mb-8">
+              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#6857ef] sm:text-xs">
+                Creative Digital Studio
+              </p>
+            </div>
+
+            <div>
+              <h1 className="max-w-[650px] text-[64px] font-semibold leading-[0.88] sm:text-[88px] lg:text-[88px] xl:text-[108px]">
+                We Build
+                <br />
+                <span className="relative inline-block text-[#6857ef]">
+                  Brands
+                  <span className="absolute -right-5 bottom-[0.08em] h-3.5 w-3.5 rounded-full bg-[#ff6b35] sm:-right-7 sm:h-4 sm:w-4 xl:h-5 xl:w-5" />
+                </span>
               </h1>
 
-              {/* 언더바 */}
-              <span
-                aria-hidden="true"
-                className={[
-                  "mx-[0.035em] inline-block",
-                  "h-[0.035em] w-[0.38em]",
-                  "translate-y-[0.04em] rounded-full",
-                  "bg-[#ed1b36]",
-                  "shadow-[0_0_18px_rgba(237,27,54,0.65)]",
-                  "origin-left transition-all duration-700",
-                  "ease-[cubic-bezier(.16,1,.3,1)]",
-                  showUnderline
-                    ? "scale-x-100 opacity-100"
-                    : "scale-x-0 opacity-0",
-                ].join(" ")}
-              />
-
-              {/* Young → 0 → 榮 */}
-              <span
-                className={[
-                  "relative inline-block h-[1em] w-[1.6em]",
-                  "translate-y-[0.08em]",
-                  "transition-opacity duration-500",
-                  showSymbol ? "opacity-100" : "opacity-0",
-                ].join(" ")}
-              >
-                {showSymbol && (
-                  <span
-                    key={symbolIndex}
-                    className={[
-                      "animated-symbol absolute inset-0",
-                      "flex h-full w-full items-center",
-                      "whitespace-nowrap",
-
-                      symbolIndex === 0
-                        ? "young-script-font justify-start pl-[0.08em] text-[0.7em]"
-                        : symbolIndex === 1
-                          ? "symbol-bold justify-start pl-[0.04em] text-[0.88em]"
-                          : "symbol-bold justify-start pl-[0.04em] text-[0.84em]",
-                    ]
-                      .filter(Boolean)
-                      .join(" ")}
-                  >
-                    {morphTexts[symbolIndex]}
-                  </span>
-                )}
-              </span>
+              <p className="mt-9 text-[21px] leading-[1.45] tracking-[-0.04em] sm:text-[25px]">
+                우리는 브랜드를 만들고
+                <br />
+                비즈니스를 성장시킵니다.
+              </p>
             </div>
+
+            <a
+              href="#about"
+              aria-label="소개 영역으로 이동"
+              className="mt-64 hidden w-fit flex-col items-center gap-4 text-[#6857ef] transition-transform duration-300 hover:translate-y-1 lg:flex"
+            >
+              <span className="text-[13px] font-bold uppercase tracking-[0.28em]">
+                Scroll
+              </span>
+
+              <span className="relative h-14 w-[2px] overflow-hidden bg-[#7c6cff]/20">
+                <span className="absolute left-0 top-0 h-5 w-[2px] animate-[scrollLine_1.8s_ease-in-out_infinite] bg-[#7c6cff]" />
+              </span>
+
+              <ArrowDown className="h-5 w-5" strokeWidth={1.7} />
+            </a>
           </div>
 
-          {/* 브랜드 메시지 */}
-          <div
-            className={[
-              "mt-1 transition-all duration-700 md:mt-3",
-              "ease-[cubic-bezier(.16,1,.3,1)]",
-              showContent
-                ? "translate-y-0 opacity-100 blur-0"
-                : "translate-y-4 opacity-0 blur-[2px]",
-            ].join(" ")}
-          >
-            <div className="space-y-1.5">
-              <p className="text-[17px] font-medium leading-[1.75] tracking-[-0.035em] text-white/65 sm:text-[20px] md:text-[24px]">
-                우리는 <span className="font-semibold text-white">젊음을</span>{" "}
-                담고,
+          {/* 오른쪽 프로젝트 영역 */}
+          <div className="relative min-w-0">
+            <div className="mb-5 flex items-center justify-between">
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#6857ef]">
+                Our Projects
               </p>
 
-              <p className="text-[17px] font-medium leading-[1.75] tracking-[-0.035em] text-white/65 sm:text-[20px] md:text-[24px]">
-                <span className="font-semibold text-[#ed1b36]">번영을</span>{" "}
-                꿈꾸며,
-              </p>
+              <p className="text-[10px] font-semibold tracking-[0.14em] text-black/30">
+                <span className="text-[#6857ef]">
+                  {String(activeIndex + 1).padStart(2, "0")}
+                </span>
 
-              <p className="text-[17px] font-medium leading-[1.75] tracking-[-0.035em] text-white/65 sm:text-[20px] md:text-[24px]">
-                새로운 <span className="font-semibold text-white">시작을</span>{" "}
-                만듭니다.
+                <span className="mx-2 text-black/15">/</span>
+
+                {String(showcaseMedia.length).padStart(2, "0")}
               </p>
             </div>
 
-            {/* 슬로건 */}
-            <div className="mt-8 flex items-center justify-center gap-4">
-              <span className="h-px w-10 bg-[#ed1b36] md:w-14" />
+            {/*
+             * 모바일
+             * 큰 이미지 위 + 작은 미리보기 아래
+             *
+             * PC
+             * 큰 이미지 왼쪽 + 작은 미리보기 오른쪽
+             */}
+            <div className="flex min-w-0 flex-col gap-3 sm:gap-4 lg:h-[690px] lg:flex-row xl:h-[730px]">
+              {/* 큰 메인 이미지 */}
+              <div className="relative h-[520px] min-w-0 flex-1 overflow-hidden rounded-[22px] bg-[#e8e5ff] shadow-[0_24px_70px_rgba(76,60,170,0.16)] sm:h-[620px] lg:h-full">
+                <Swiper
+                  direction="vertical"
+                  slidesPerView={1}
+                  spaceBetween={0}
+                  loop={showcaseMedia.length > 1}
+                  speed={750}
+                  grabCursor
+                  allowTouchMove
+                  onSwiper={(swiper) => {
+                    swiperRef.current = swiper;
+                    setActiveIndex(swiper.realIndex);
+                  }}
+                  onSlideChange={(swiper) => {
+                    setActiveIndex(swiper.realIndex);
+                  }}
+                  className="h-full w-full"
+                >
+                  {showcaseMedia.map((media, index) => (
+                    <SwiperSlide key={`${media.id}-${index}`}>
+                      {({ isActive }) => (
+                        <MainShowcaseMedia
+                          media={media}
+                          isActive={isActive}
+                          priority={index === 0}
+                          onEnded={moveToNextSlide}
+                        />
+                      )}
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
 
-              <p className="text-[15px] font-black tracking-[0.17em] sm:text-[17px] md:text-[20px]">
-                MAKE IT <span className="slogan-gradient">Young.</span>
-              </p>
+                {/* 자동 재생 상태 */}
+                <div className="pointer-events-none absolute right-4 top-4 z-40 flex items-center gap-2 rounded-full border border-white/25 bg-black/20 px-3 py-2 backdrop-blur-md">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
 
-              <span className="h-px w-10 bg-[#ed1b36] md:w-14" />
+                  <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/85">
+                    {activeMedia?.type === "image" ? "Auto" : "Playing"}
+                  </span>
+                </div>
+
+                {/* 하단 그라데이션 */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[32%] bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+
+                {/* 프로젝트 번호 */}
+                <div className="pointer-events-none absolute bottom-5 left-5 z-40 sm:bottom-6 sm:left-6">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
+                    Featured project
+                  </p>
+
+                  <p className="mt-1 text-[20px] font-semibold tracking-[-0.03em] text-white">
+                    Project {String(activeIndex + 1).padStart(2, "0")}
+                  </p>
+                </div>
+
+                <div className="pointer-events-none absolute inset-0 z-30 ring-1 ring-inset ring-black/[0.05]" />
+              </div>
+
+              {/* 작은 미리보기 영역 */}
+              <div className="min-w-0 lg:w-[145px] xl:w-[170px] 2xl:w-[190px]">
+                <div className="grid grid-cols-4 gap-2 sm:gap-3 lg:h-full lg:grid-cols-1 lg:grid-rows-4 lg:gap-3">
+                  {[1, 2, 3, 4].map((offset) => {
+                    const previewIndex =
+                      (activeIndex + offset) % showcaseMedia.length;
+
+                    const previewMedia = showcaseMedia[previewIndex];
+
+                    return (
+                      <button
+                        key={`${previewMedia.id}-${previewIndex}-${offset}`}
+                        type="button"
+                        aria-label={`${previewIndex + 1}번째 프로젝트 보기`}
+                        onClick={() => moveToSlide(previewIndex)}
+                        className="group relative h-[90px] min-h-0 min-w-0 overflow-hidden rounded-[12px] bg-[#ded9ff] shadow-[0_10px_30px_rgba(76,60,170,0.1)] transition-transform duration-300 hover:-translate-y-1 sm:h-[120px] sm:rounded-[15px] lg:h-auto"
+                      >
+                        <PreviewMedia media={previewMedia} />
+
+                        {/* 어두운 필터 */}
+                        <div className="pointer-events-none absolute inset-0 bg-black/35 transition-colors duration-300 group-hover:bg-black/15" />
+
+                        {/* 테두리 */}
+                        <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/20" />
+
+                        {/* 번호 */}
+                        <span className="absolute left-2 top-2 z-20 text-[8px] font-bold tracking-[0.08em] text-white/85 sm:left-3 sm:top-3 sm:text-[9px]">
+                          {String(previewIndex + 1).padStart(2, "0")}
+                        </span>
+
+                        {/* 영상 표시 아이콘 */}
+                        {previewMedia.type !== "image" && (
+                          <span className="absolute left-1/2 top-1/2 z-20 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/20 backdrop-blur-sm sm:h-9 sm:w-9">
+                            <span className="ml-0.5 h-0 w-0 border-y-[4px] border-l-[7px] border-y-transparent border-l-white sm:border-y-[5px] sm:border-l-[8px]" />
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* 하단 진행 바 */}
+            <div className="mt-5 flex items-center gap-2">
+              {showcaseMedia.map((media, index) => (
+                <button
+                  key={media.id}
+                  type="button"
+                  aria-label={`${index + 1}번째 미디어 보기`}
+                  onClick={() => moveToSlide(index)}
+                  className={[
+                    "block h-[3px] flex-1 overflow-hidden rounded-full transition-colors duration-300",
+                    index === activeIndex
+                      ? "bg-[#6857ef]"
+                      : "bg-[#d8d4ef] hover:bg-[#aaa2e8]",
+                  ].join(" ")}
+                />
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* 스크롤 표시 */}
-      <a
-        href="#about"
-        aria-label="다음 섹션으로 이동"
-        className={[
-          "absolute bottom-7 left-1/2",
-          "flex -translate-x-1/2 flex-col items-center gap-3",
-          "transition-opacity duration-700",
-          showContent ? "opacity-100" : "pointer-events-none opacity-0",
-        ].join(" ")}
-      >
-        <span className="text-[9px] font-semibold tracking-[0.28em] text-white/35">
-          SCROLL
-        </span>
+      {/* 하단 실적 영역 */}
+      <div className="relative z-30 overflow-hidden border-t border-white/15 bg-[linear-gradient(110deg,#8b7cff_0%,#6d5df5_50%,#7b6af8_100%)] text-white">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_0%,rgba(255,255,255,0.22),transparent_48%)]"
+        />
 
-        <span className="relative h-11 w-px overflow-hidden bg-white/15">
-          <span className="absolute left-0 top-0 h-4 w-px animate-[scrollLine_1.8s_ease-in-out_infinite] bg-[#ed1b36]" />
-        </span>
-      </a>
+        <div className="relative mx-auto grid max-w-[1600px] gap-10 px-5 py-11 sm:px-8 lg:grid-cols-[1.2fr_2.5fr_auto] lg:items-center lg:px-12 xl:px-16">
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-white/50">
+              Since 2020
+            </p>
+
+            <p className="mt-4 text-[19px] font-semibold leading-[1.5] tracking-[-0.03em] sm:text-[22px]">
+              다양한 분야의 브랜드와
+              <br />
+              함께 성장해왔습니다.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-y-8 sm:grid-cols-4">
+            {stats.map((item, index) => (
+              <div
+                key={item.label}
+                className={[
+                  "px-4 sm:px-7",
+                  index === 0 ? "pl-0" : "",
+                  index !== stats.length - 1
+                    ? "sm:border-r sm:border-white/20"
+                    : "",
+                ].join(" ")}
+              >
+                <p className="text-[34px] font-light tracking-[-0.055em] sm:text-[40px]">
+                  {item.value}
+
+                  {item.sub && (
+                    <span className="ml-1 text-lg text-white/60">
+                      {item.sub}
+                    </span>
+                  )}
+                </p>
+
+                <p className="mt-2 text-[9px] font-semibold text-white/55">
+                  {item.label}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <Link
+            href="/portfolio"
+            className="group inline-flex items-center gap-7 text-[10px] font-bold uppercase tracking-[0.1em] text-white/80 transition-colors hover:text-white"
+          >
+            View our works
+            <ArrowRight
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"
+              strokeWidth={1.5}
+            />
+          </Link>
+        </div>
+      </div>
 
       <style jsx global>{`
-        @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Italianno&display=swap");
-
-        .studio-logo-font {
-          font-family: "Cormorant Garamond", Georgia, serif;
-          font-weight: 500;
-        }
-
-        .young-script-font {
-          font-family: "Italianno", cursive;
-          font-weight: 400;
-          line-height: 1;
-        }
-
-        .symbol-bold {
-          font-family: Arial, "Noto Sans KR", sans-serif;
-          font-weight: 900;
-        }
-
-        .animated-text-fill {
-          color: transparent;
-
-          background-image: linear-gradient(
-            110deg,
-            #ffffff 0%,
-            #ffffff 22%,
-            #d9d9d9 22%,
-            #d9d9d9 34%,
-            #ed1b36 34%,
-            #ed1b36 44%,
-            #ffffff 44%,
-            #ffffff 66%,
-            #8d8d8d 66%,
-            #8d8d8d 76%,
-            #ffffff 76%,
-            #ffffff 100%
-          );
-
-          background-size: 240% 100%;
-          background-position: 100% 50%;
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-
-          animation: textColorFlow 4.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-        }
-
-        .animated-symbol {
-          color: transparent;
-
-          background-image: linear-gradient(
-            115deg,
-            #ed1b36 0%,
-            #ed1b36 43%,
-            #ffffff 43%,
-            #ffffff 63%,
-            #bdbdbd 63%,
-            #bdbdbd 72%,
-            #ed1b36 72%,
-            #ed1b36 100%
-          );
-
-          background-size: 180% 100%;
-          background-position: 100% 50%;
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-
-          transform-origin: center;
-
-          animation:
-            symbolAppear 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-            symbolColorFlow 1.2s ease-in-out;
-        }
-
-        .slogan-gradient {
-          color: transparent;
-
-          background-image: linear-gradient(
-            105deg,
-            #ed1b36 0%,
-            #ed1b36 45%,
-            #ffffff 45%,
-            #ffffff 62%,
-            #ed1b36 62%,
-            #ed1b36 100%
-          );
-
-          background-size: 200% 100%;
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-
-          animation: sloganFlow 3s ease-in-out infinite;
-        }
-
-        /* 회전 없이 자연스럽게 등장 */
-        @keyframes symbolAppear {
-          0% {
-            opacity: 0;
-            transform: translateY(10px) scale(0.96);
-            filter: blur(7px);
-          }
-
-          60% {
-            opacity: 1;
-            transform: translateY(-1px) scale(1.01);
-            filter: blur(0);
-          }
-
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            filter: blur(0);
-          }
-        }
-
-        @keyframes textColorFlow {
-          0% {
-            background-position: 100% 50%;
-          }
-
-          45% {
-            background-position: 0% 50%;
-          }
-
-          65% {
-            background-position: 0% 50%;
-          }
-
-          100% {
-            background-position: -100% 50%;
-          }
-        }
-
-        @keyframes symbolColorFlow {
-          0% {
-            background-position: 100% 50%;
-          }
-
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-
-        @keyframes sloganFlow {
-          0%,
-          100% {
-            background-position: 100% 50%;
-          }
-
-          50% {
-            background-position: 0% 50%;
-          }
-        }
-
         @keyframes scrollLine {
           0% {
             transform: translateY(-120%);
           }
 
           50% {
-            transform: translateY(130%);
+            transform: translateY(120%);
           }
 
           100% {
-            transform: translateY(260%);
+            transform: translateY(280%);
           }
         }
 
+        #home .swiper {
+          width: 100%;
+          height: 100%;
+        }
+
+        #home .swiper-wrapper {
+          transition-timing-function: cubic-bezier(
+            0.22,
+            0.61,
+            0.36,
+            1
+          ) !important;
+        }
+
+        #home .swiper-slide {
+          width: 100%;
+          height: 100%;
+          min-height: 0;
+          overflow: hidden;
+        }
+
+        #home iframe {
+          display: block;
+        }
+
         @media (prefers-reduced-motion: reduce) {
-          .animated-text-fill,
-          .animated-symbol,
-          .slogan-gradient {
-            animation: none;
+          * {
+            scroll-behavior: auto !important;
+          }
+
+          #home .swiper-wrapper {
+            transition-duration: 0ms !important;
           }
         }
       `}</style>
     </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* 메인 미디어 */
+/* -------------------------------------------------------------------------- */
+
+type MainShowcaseMediaProps = {
+  media: ShowcaseMedia;
+  isActive: boolean;
+  priority?: boolean;
+  onEnded: () => void;
+};
+
+function MainShowcaseMedia({
+  media,
+  isActive,
+  priority = false,
+  onEnded,
+}: MainShowcaseMediaProps) {
+  return (
+    <div className="relative h-full w-full overflow-hidden bg-[#eeecff]">
+      {media.type === "image" && (
+        <Image
+          src={media.src}
+          alt={media.alt}
+          fill
+          priority={priority}
+          sizes="(max-width: 1024px) 100vw, 48vw"
+          className="object-cover"
+        />
+      )}
+
+      {media.type === "video" && (
+        <LocalVideo media={media} isActive={isActive} onEnded={onEnded} />
+      )}
+
+      {media.type === "youtube" && (
+        <YouTubeVideo media={media} isActive={isActive} onEnded={onEnded} />
+      )}
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* 작은 미리보기 */
+/* -------------------------------------------------------------------------- */
+
+type PreviewMediaProps = {
+  media: ShowcaseMedia;
+};
+
+function PreviewMedia({ media }: PreviewMediaProps) {
+  if (media.type === "image") {
+    return (
+      <Image
+        src={media.src}
+        alt={media.alt}
+        fill
+        sizes="200px"
+        className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+      />
+    );
+  }
+
+  if (media.type === "video") {
+    if (media.poster) {
+      return (
+        <Image
+          src={media.poster}
+          alt={media.alt}
+          fill
+          sizes="200px"
+          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+        />
+      );
+    }
+
+    return (
+      <video
+        src={media.src}
+        aria-label={media.alt}
+        muted
+        playsInline
+        preload="metadata"
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+      />
+    );
+  }
+
+  return (
+    <img
+      src={`https://img.youtube.com/vi/${media.youtubeId}/hqdefault.jpg`}
+      alt={media.alt}
+      loading="lazy"
+      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* 직접 업로드한 MP4 영상 */
+/* -------------------------------------------------------------------------- */
+
+type LocalVideoProps = {
+  media: Extract<ShowcaseMedia, { type: "video" }>;
+  isActive: boolean;
+  onEnded: () => void;
+};
+
+function LocalVideo({ media, isActive, onEnded }: LocalVideoProps) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const onEndedRef = useRef(onEnded);
+
+  useEffect(() => {
+    onEndedRef.current = onEnded;
+  }, [onEnded]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    if (isActive) {
+      video.currentTime = 0;
+
+      const playPromise = video.play();
+
+      playPromise?.catch(() => {
+        /*
+         * 브라우저에서 자동재생을 막은 경우
+         * 오류가 발생하지 않도록 무시
+         */
+      });
+
+      return;
+    }
+
+    video.pause();
+    video.currentTime = 0;
+  }, [isActive]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={media.src}
+      poster={media.poster}
+      aria-label={media.alt}
+      muted
+      playsInline
+      preload="metadata"
+      onEnded={() => {
+        if (isActive) {
+          onEndedRef.current();
+        }
+      }}
+      className="h-full w-full object-cover"
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* YouTube API 타입 */
+/* -------------------------------------------------------------------------- */
+
+type YouTubePlayerInstance = {
+  playVideo: () => void;
+  pauseVideo: () => void;
+  seekTo: (seconds: number, allowSeekAhead?: boolean) => void;
+  mute: () => void;
+  destroy: () => void;
+};
+
+type YouTubePlayerStateEvent = {
+  data: number;
+  target: YouTubePlayerInstance;
+};
+
+type YouTubePlayerReadyEvent = {
+  target: YouTubePlayerInstance;
+};
+
+declare global {
+  interface Window {
+    YT?: {
+      Player: new (
+        element: HTMLElement,
+        options: {
+          videoId: string;
+
+          playerVars?: Record<string, number | string>;
+
+          events?: {
+            onReady?: (event: YouTubePlayerReadyEvent) => void;
+
+            onStateChange?: (event: YouTubePlayerStateEvent) => void;
+          };
+        },
+      ) => YouTubePlayerInstance;
+
+      PlayerState: {
+        ENDED: number;
+        PLAYING: number;
+        PAUSED: number;
+      };
+    };
+
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* YouTube API 불러오기 */
+/* -------------------------------------------------------------------------- */
+
+let youtubeApiPromise: Promise<void> | null = null;
+
+function loadYouTubeApi(): Promise<void> {
+  if (typeof window === "undefined") {
+    return Promise.resolve();
+  }
+
+  if (window.YT?.Player) {
+    return Promise.resolve();
+  }
+
+  if (youtubeApiPromise) {
+    return youtubeApiPromise;
+  }
+
+  youtubeApiPromise = new Promise<void>((resolve) => {
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[src="https://www.youtube.com/iframe_api"]',
+    );
+
+    const previousCallback = window.onYouTubeIframeAPIReady;
+
+    window.onYouTubeIframeAPIReady = () => {
+      previousCallback?.();
+      resolve();
+    };
+
+    if (!existingScript) {
+      const script = document.createElement("script");
+
+      script.src = "https://www.youtube.com/iframe_api";
+
+      script.async = true;
+
+      document.head.appendChild(script);
+    }
+  });
+
+  return youtubeApiPromise;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 유튜브 영상 */
+/* -------------------------------------------------------------------------- */
+
+type YouTubeVideoProps = {
+  media: Extract<ShowcaseMedia, { type: "youtube" }>;
+  isActive: boolean;
+  onEnded: () => void;
+};
+
+function YouTubeVideo({ media, isActive, onEnded }: YouTubeVideoProps) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const playerRef = useRef<YouTubePlayerInstance | null>(null);
+
+  const isPlayerReadyRef = useRef(false);
+  const isActiveRef = useRef(isActive);
+  const onEndedRef = useRef(onEnded);
+
+  useEffect(() => {
+    isActiveRef.current = isActive;
+  }, [isActive]);
+
+  useEffect(() => {
+    onEndedRef.current = onEnded;
+  }, [onEnded]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const createPlayer = async () => {
+      await loadYouTubeApi();
+
+      if (
+        cancelled ||
+        !containerRef.current ||
+        !window.YT?.Player ||
+        playerRef.current
+      ) {
+        return;
+      }
+
+      playerRef.current = new window.YT.Player(containerRef.current, {
+        videoId: media.youtubeId,
+
+        playerVars: {
+          autoplay: 0,
+          mute: 1,
+          controls: 0,
+          playsinline: 1,
+          rel: 0,
+          modestbranding: 1,
+          disablekb: 1,
+          fs: 0,
+        },
+
+        events: {
+          onReady: ({ target }) => {
+            isPlayerReadyRef.current = true;
+
+            target.mute();
+
+            if (isActiveRef.current) {
+              target.seekTo(0, true);
+              target.playVideo();
+            }
+          },
+
+          onStateChange: ({ data }) => {
+            const endedState = window.YT?.PlayerState.ENDED;
+
+            if (data === endedState && isActiveRef.current) {
+              onEndedRef.current();
+            }
+          },
+        },
+      });
+    };
+
+    createPlayer();
+
+    return () => {
+      cancelled = true;
+      isPlayerReadyRef.current = false;
+
+      playerRef.current?.destroy();
+      playerRef.current = null;
+    };
+  }, [media.youtubeId]);
+
+  useEffect(() => {
+    const player = playerRef.current;
+
+    if (!player || !isPlayerReadyRef.current) {
+      return;
+    }
+
+    if (isActive) {
+      player.seekTo(0, true);
+      player.playVideo();
+      return;
+    }
+
+    player.pauseVideo();
+    player.seekTo(0, true);
+  }, [isActive]);
+
+  return (
+    <div
+      ref={containerRef}
+      role="img"
+      aria-label={media.alt}
+      className="h-full w-full [&_iframe]:h-full [&_iframe]:w-full [&_iframe]:border-0"
+    />
   );
 }

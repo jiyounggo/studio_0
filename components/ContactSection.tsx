@@ -218,31 +218,31 @@ export default function ContactSection() {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative bg-[#f5f5f5] py-20 text-black sm:py-24 lg:py-28"
+      className="relative bg-[linear-gradient(180deg,#f8f7ff_0%,#f2efff_100%)] py-20 text-black sm:py-24 lg:py-28"
     >
       {/* 왼쪽 위 궤도 장식 */}
       <div className="pointer-events-none absolute -left-44 -top-40 hidden h-[430px] w-[430px] rounded-full border border-black/[0.04] lg:block">
         <div className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-black/[0.04]" />
 
-        <div className="absolute left-1/2 top-1/2 h-[165px] w-[165px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#ed1b36]/15" />
+        <div className="absolute left-1/2 top-1/2 h-[165px] w-[165px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#6857ef]/15" />
 
         <div className="absolute -left-6 top-1/2 h-[72px] w-[450px] -translate-y-1/2 -rotate-[13deg] rounded-[50%] border border-black/[0.05]" />
 
         <Star
-          className="absolute bottom-[75px] right-[80px] h-5 w-5 text-[#ed1b36]"
+          className="absolute bottom-[75px] right-[80px] h-5 w-5 text-[#6857ef]"
           fill="currentColor"
           strokeWidth={1}
         />
       </div>
 
       <Sparkles
-        className="pointer-events-none absolute right-[7%] top-[7%] hidden h-6 w-6 text-[#ed1b36]/40 lg:block"
+        className="pointer-events-none absolute right-[7%] top-[7%] hidden h-6 w-6 text-[#6857ef]/40 lg:block"
         strokeWidth={1.4}
       />
 
       <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
         {/* 대제목 */}
-        <div className="mb-12 flex flex-col justify-between gap-8 border-b-2 border-black pb-10 lg:mb-14 lg:flex-row lg:items-end">
+        <div className="mb-12 flex flex-col justify-between gap-8 border-b-2 border-[#211b47] pb-10 lg:mb-14 lg:flex-row lg:items-end">
           <h2
             data-reveal
             data-delay="100"
@@ -253,14 +253,14 @@ export default function ContactSection() {
             <span className="relative inline-block">
               <span className="relative z-10">상담 문의</span>
 
-              <span className="absolute bottom-[3px] left-0 h-[10px] w-full -rotate-1 bg-[#ed1b36]/20 sm:h-[13px]" />
+              <span className="absolute bottom-[3px] left-0 h-[10px] w-full -rotate-1 bg-[#6857ef]/20 sm:h-[13px]" />
             </span>
           </h2>
 
           <p
             data-reveal
             data-delay="300"
-            className="contact-reveal max-w-[420px] text-[15px] font-semibold leading-7 text-black/55 sm:text-[17px]"
+            className="contact-reveal max-w-[420px] text-[15px] font-semibold leading-7 text-[#211b47]/55 sm:text-[17px]"
           >
             아직 구체적인 계획이 없어도 괜찮아요.
             <br />
@@ -273,18 +273,18 @@ export default function ContactSection() {
           {/* 왼쪽 안내 영역 */}
           <div className="h-full">
             <div className="lg:sticky lg:top-60">
-              <aside className="relative min-h-[600px] overflow-hidden rounded-[28px] bg-black p-7 text-white shadow-[0_20px_60px_rgba(0,0,0,0.18)] sm:p-10 lg:p-11">
+              <aside className="relative min-h-[600px] overflow-hidden rounded-[28px] bg-[#19152f] p-7 text-white shadow-[0_20px_60px_rgba(0,0,0,0.18)] sm:p-10 lg:p-11">
                 {/* 배경 장식 */}
                 <div className="pointer-events-none absolute -right-28 -top-28 h-[330px] w-[330px] rounded-full border border-white/[0.07]">
                   <div className="absolute left-1/2 top-1/2 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.07]" />
 
-                  <div className="absolute left-1/2 top-1/2 h-[115px] w-[115px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#ed1b36]/30" />
+                  <div className="absolute left-1/2 top-1/2 h-[115px] w-[115px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#6857ef]/30" />
 
                   <div className="absolute -left-8 top-1/2 h-[60px] w-[355px] -translate-y-1/2 -rotate-[14deg] rounded-[50%] border border-white/[0.08]" />
                 </div>
 
                 <Star
-                  className="absolute right-9 top-8 h-5 w-5 text-[#ed1b36]"
+                  className="absolute right-9 top-8 h-5 w-5 text-[#6857ef]"
                   fill="currentColor"
                   strokeWidth={1}
                 />
@@ -306,7 +306,7 @@ export default function ContactSection() {
                         key={benefit}
                         className="flex min-h-[74px] items-center gap-4 rounded-[18px] border border-white/[0.09] bg-white/[0.055] px-4 py-4 backdrop-blur-sm"
                       >
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#ed1b36]">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#6857ef]">
                           <Check
                             className="h-4 w-4 text-white"
                             strokeWidth={3}
@@ -328,7 +328,7 @@ export default function ContactSection() {
 
                   <div className="mt-8 flex items-center gap-3 border-t border-white/10 pt-6 text-xs font-bold text-white/35">
                     <Clock3
-                      className="h-4 w-4 shrink-0 text-[#ed1b36]"
+                      className="h-4 w-4 shrink-0 text-[#6857ef]"
                       strokeWidth={2.5}
                     />
                     문의 확인 후 순차적으로 연락드려요.
@@ -342,15 +342,15 @@ export default function ContactSection() {
           <div
             data-reveal
             data-delay="650"
-            className="contact-reveal relative overflow-hidden rounded-[28px] border border-black/[0.08] bg-white p-6 shadow-[0_16px_50px_rgba(0,0,0,0.07)] sm:p-9 lg:min-h-[600px] lg:p-11 xl:p-12"
+            className="contact-reveal relative overflow-hidden rounded-[28px] border border-[#6857ef]/[0.12] bg-white p-6 shadow-[0_16px_50px_rgba(0,0,0,0.07)] sm:p-9 lg:min-h-[600px] lg:p-11 xl:p-12"
           >
             <div className="pointer-events-none absolute -right-24 -top-28 h-[280px] w-[280px] rounded-full border border-black/[0.035]">
-              <div className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#ed1b36]/10" />
+              <div className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#6857ef]/10" />
             </div>
 
             {isSuccess ? (
               <div className="relative flex min-h-[600px] flex-col items-center justify-center px-4 py-12 text-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#ed1b36] text-white shadow-[0_15px_35px_rgba(237,27,54,0.25)]">
+                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#6857ef] text-white shadow-[0_15px_35px_rgba(104,87,239,0.25)]">
                   <CheckCircle2 className="h-9 w-9" />
                 </div>
 
@@ -358,7 +358,7 @@ export default function ContactSection() {
                   문의가 접수되었습니다.
                 </h3>
 
-                <p className="mt-4 text-[15px] font-semibold leading-7 text-black/50">
+                <p className="mt-4 text-[15px] font-semibold leading-7 text-[#211b47]/50">
                   남겨주신 내용을 확인한 후
                   <br />
                   입력해주신 번호로 연락드리겠습니다.
@@ -367,7 +367,7 @@ export default function ContactSection() {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="group mt-9 inline-flex items-center gap-3 rounded-full bg-black px-7 py-4 text-sm font-black text-white transition-all duration-300 hover:bg-[#ed1b36]"
+                  className="group mt-9 inline-flex items-center gap-3 rounded-full bg-[#19152f] px-7 py-4 text-sm font-black text-white transition-all duration-300 hover:bg-[#5b4be0]"
                 >
                   새로운 문의 작성하기
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -376,11 +376,11 @@ export default function ContactSection() {
             ) : (
               <div className="relative">
                 {/* 폼 제목 */}
-                <div className="mb-9 border-b border-black/10 pb-8">
+                <div className="mb-9 border-b border-[#6857ef]/10 pb-8">
                   <div className="flex items-center gap-3">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#ed1b36]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#6857ef]" />
 
-                    <p className="text-sm font-black text-[#ed1b36]">
+                    <p className="text-sm font-black text-[#6857ef]">
                       상담 신청
                     </p>
                   </div>
@@ -390,7 +390,7 @@ export default function ContactSection() {
                     <br className="sm:hidden" /> 남겨주세요.
                   </h3>
 
-                  <p className="mt-4 text-sm font-medium leading-6 text-black/40">
+                  <p className="mt-4 text-sm font-medium leading-6 text-[#211b47]/40">
                     필수 항목만 간단히 작성해도 상담이 가능합니다.
                   </p>
                 </div>
@@ -401,7 +401,7 @@ export default function ContactSection() {
                     <label>
                       <span className="mb-2.5 block text-sm font-black">
                         이름
-                        <span className="ml-1 text-[#ed1b36]">*</span>
+                        <span className="ml-1 text-[#6857ef]">*</span>
                       </span>
 
                       <input
@@ -413,14 +413,14 @@ export default function ContactSection() {
                         maxLength={50}
                         autoComplete="name"
                         placeholder="이름"
-                        className="h-[54px] w-full rounded-[14px] border-2 border-black/[0.08] bg-[#f7f7f7] px-4 text-sm font-medium outline-none transition-all placeholder:text-black/25 focus:border-[#ed1b36] focus:bg-white"
+                        className="h-[54px] w-full rounded-[14px] border-2 border-[#6857ef]/[0.12] bg-[#f7f5ff] px-4 text-sm font-medium outline-none transition-all placeholder:text-[#211b47]/25 focus:border-[#6857ef] focus:bg-white"
                       />
                     </label>
 
                     <label>
                       <span className="mb-2.5 block text-sm font-black">
                         휴대폰 번호
-                        <span className="ml-1 text-[#ed1b36]">*</span>
+                        <span className="ml-1 text-[#6857ef]">*</span>
                       </span>
 
                       <input
@@ -435,7 +435,7 @@ export default function ContactSection() {
                         inputMode="numeric"
                         autoComplete="tel"
                         placeholder="010-0000-0000"
-                        className="h-[54px] w-full rounded-[14px] border-2 border-black/[0.08] bg-[#f7f7f7] px-4 text-sm font-medium outline-none transition-all placeholder:text-black/25 focus:border-[#ed1b36] focus:bg-white"
+                        className="h-[54px] w-full rounded-[14px] border-2 border-[#6857ef]/[0.12] bg-[#f7f5ff] px-4 text-sm font-medium outline-none transition-all placeholder:text-[#211b47]/25 focus:border-[#6857ef] focus:bg-white"
                       />
                     </label>
 
@@ -452,7 +452,7 @@ export default function ContactSection() {
                         }
                         maxLength={100}
                         placeholder="상호명 또는 브랜드명"
-                        className="h-[54px] w-full rounded-[14px] border-2 border-black/[0.08] bg-[#f7f7f7] px-4 text-sm font-medium outline-none transition-all placeholder:text-black/25 focus:border-[#ed1b36] focus:bg-white"
+                        className="h-[54px] w-full rounded-[14px] border-2 border-[#6857ef]/[0.12] bg-[#f7f5ff] px-4 text-sm font-medium outline-none transition-all placeholder:text-[#211b47]/25 focus:border-[#6857ef] focus:bg-white"
                       />
                     </label>
 
@@ -466,7 +466,7 @@ export default function ContactSection() {
                         onChange={(event) =>
                           updateForm("budget", event.target.value)
                         }
-                        className="h-[54px] w-full rounded-[14px] border-2 border-black/[0.08] bg-[#f7f7f7] px-4 text-sm font-medium outline-none transition-all focus:border-[#ed1b36] focus:bg-white"
+                        className="h-[54px] w-full rounded-[14px] border-2 border-[#6857ef]/[0.12] bg-[#f7f5ff] px-4 text-sm font-medium outline-none transition-all focus:border-[#6857ef] focus:bg-white"
                       >
                         <option value="">예산 선택</option>
 
@@ -483,7 +483,7 @@ export default function ContactSection() {
                   <div className="mt-9">
                     <p className="mb-4 text-sm font-black">
                       어떤 서비스가 필요하신가요?
-                      <span className="ml-1 text-[#ed1b36]">*</span>
+                      <span className="ml-1 text-[#6857ef]">*</span>
                     </p>
 
                     <div className="grid gap-3 sm:grid-cols-2">
@@ -498,8 +498,8 @@ export default function ContactSection() {
                             className={[
                               "flex min-h-[58px] items-center justify-between rounded-[16px] border-2 px-4 text-left text-[13px] font-bold transition-all duration-200",
                               isSelected
-                                ? "border-[#ed1b36] bg-[#ed1b36] text-white shadow-[0_8px_20px_rgba(237,27,54,0.20)]"
-                                : "border-black/[0.07] bg-[#f7f7f7] text-black/65 hover:border-black/20 hover:bg-white",
+                                ? "border-[#6857ef] bg-[#6857ef] text-white shadow-[0_8px_20px_rgba(104,87,239,0.20)]"
+                                : "border-[#6857ef]/[0.10] bg-[#f7f5ff] text-black/65 hover:border-[#6857ef]/35 hover:bg-white",
                             ].join(" ")}
                           >
                             <span className="pr-3">{service}</span>
@@ -508,7 +508,7 @@ export default function ContactSection() {
                               className={[
                                 "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition",
                                 isSelected
-                                  ? "border-white bg-white text-[#ed1b36]"
+                                  ? "border-white bg-white text-[#6857ef]"
                                   : "border-black/15",
                               ].join(" ")}
                             >
@@ -536,10 +536,10 @@ export default function ContactSection() {
                       maxLength={1500}
                       rows={5}
                       placeholder="원하시는 작업이나 궁금한 내용을 자유롭게 남겨주세요."
-                      className="w-full resize-none rounded-[16px] border-2 border-black/[0.08] bg-[#f7f7f7] px-4 py-4 text-sm font-medium leading-7 outline-none transition-all placeholder:text-black/25 focus:border-[#ed1b36] focus:bg-white"
+                      className="w-full resize-none rounded-[16px] border-2 border-[#6857ef]/[0.12] bg-[#f7f5ff] px-4 py-4 text-sm font-medium leading-7 outline-none transition-all placeholder:text-[#211b47]/25 focus:border-[#6857ef] focus:bg-white"
                     />
 
-                    <span className="mt-1.5 block text-right text-[11px] font-medium text-black/30">
+                    <span className="mt-1.5 block text-right text-[11px] font-medium text-[#211b47]/30">
                       {form.message.length}/1500
                     </span>
                   </label>
@@ -547,22 +547,22 @@ export default function ContactSection() {
                   {errorMessage && (
                     <p
                       role="alert"
-                      className="mt-5 rounded-[14px] bg-[#ed1b36]/[0.07] px-4 py-3.5 text-sm font-bold text-[#ed1b36]"
+                      className="mt-5 rounded-[14px] bg-[#6857ef]/[0.07] px-4 py-3.5 text-sm font-bold text-[#6857ef]"
                     >
                       {errorMessage}
                     </p>
                   )}
 
                   {/* 제출 영역 */}
-                  <div className="mt-7 flex flex-col justify-between gap-5 border-t border-black/10 pt-7 sm:flex-row sm:items-center">
-                    <p className="max-w-[360px] text-[12px] font-medium leading-5 text-black/35">
+                  <div className="mt-7 flex flex-col justify-between gap-5 border-t border-[#6857ef]/10 pt-7 sm:flex-row sm:items-center">
+                    <p className="max-w-[360px] text-[12px] font-medium leading-5 text-[#211b47]/35">
                       작성해주신 정보는 상담 및 견적 안내 목적으로만 사용됩니다.
                     </p>
 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="group flex h-[58px] w-full items-center justify-between rounded-full bg-black px-6 text-sm font-black text-white transition-all duration-300 hover:bg-[#ed1b36] hover:shadow-[0_12px_30px_rgba(237,27,54,0.22)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-[260px]"
+                      className="group flex h-[58px] w-full items-center justify-between rounded-full bg-black px-6 text-sm font-black text-white transition-all duration-300 hover:bg-[#5b4be0] hover:shadow-[0_12px_30px_rgba(104,87,239,0.22)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-[260px]"
                     >
                       <span>
                         {isSubmitting ? "문의 접수 중..." : "상담 문의 보내기"}

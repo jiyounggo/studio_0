@@ -65,9 +65,9 @@ const secondReviews: Review[] = [
 
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <article className="group relative w-[310px] shrink-0 overflow-hidden rounded-[24px] border border-white/[0.12] bg-white/[0.055] p-6 shadow-[0_18px_55px_rgba(0,0,0,0.3)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#ed1b36]/60 hover:bg-white/[0.09] sm:w-[380px] sm:p-7 lg:w-[430px]">
+    <article className="group relative w-[310px] shrink-0 overflow-hidden rounded-[24px] border border-white/[0.12] bg-white/[0.055] p-6 shadow-[0_18px_55px_rgba(0,0,0,0.3)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#8d82ff] hover:bg-[#6857ef]/10 sm:w-[380px] sm:p-7 lg:w-[430px]">
       {/* 카드 포인트 */}
-      <span className="absolute left-0 top-0 h-[5px] w-16 rounded-br-full bg-[#ed1b36] transition-all duration-300 group-hover:w-28" />
+      <span className="absolute left-0 top-0 h-[5px] w-16 rounded-br-full bg-[#6857ef] transition-all duration-300 group-hover:w-28" />
 
       {/* 배경 원 장식 */}
       <span className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full border border-white/[0.05]" />
@@ -75,7 +75,7 @@ function ReviewCard({ review }: { review: Review }) {
       <div className="relative">
         <div className="flex items-center justify-between">
           <Quote
-            className="h-8 w-8 text-[#ed1b36]"
+            className="h-8 w-8 text-[#6857ef]"
             fill="currentColor"
             strokeWidth={1.5}
           />
@@ -90,7 +90,7 @@ function ReviewCard({ review }: { review: Review }) {
         </p>
 
         <div className="mt-7 flex items-center gap-3 border-t border-white/10 pt-5">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#ed1b36]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#6857ef]" />
 
           <p className="text-sm font-black text-white">{review.name}</p>
         </div>
@@ -151,18 +151,18 @@ export default function ReviewSection() {
     <section
       ref={sectionRef}
       id="reviews"
-      className="relative overflow-hidden bg-[#0b0b0b] py-20 text-white sm:py-24 lg:py-28"
+      className="relative overflow-hidden bg-[#17142d] py-20 text-white sm:py-24 lg:py-28"
     >
       {/* 배경 빛 */}
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-[#ed1b36]/[0.055] blur-[130px]" />
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-[#6857ef]/[0.055] blur-[130px]" />
 
       {/* 오른쪽 위 별 궤도 */}
       <div className="pointer-events-none absolute -right-32 -top-36 h-[390px] w-[390px] rounded-full border border-white/[0.05]">
         <div className="absolute left-1/2 top-1/2 h-[270px] w-[270px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.05]" />
 
-        <div className="absolute left-1/2 top-1/2 h-[155px] w-[155px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#ed1b36]/20" />
+        <div className="absolute left-1/2 top-1/2 h-[155px] w-[155px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#6857ef]/20" />
 
-        <span className="absolute bottom-[78px] left-[65px] h-3 w-3 rounded-full bg-[#ed1b36]" />
+        <span className="absolute bottom-[78px] left-[65px] h-3 w-3 rounded-full bg-[#6857ef]" />
 
         <Sparkles
           className="absolute bottom-[110px] left-[118px] h-5 w-5 text-white/15"
@@ -183,7 +183,7 @@ export default function ReviewSection() {
             <span className="relative inline-block">
               <span className="relative z-10">진짜 이야기</span>
 
-              <span className="absolute bottom-[3px] left-0 h-[10px] w-full -rotate-1 bg-[#ed1b36]/35 sm:h-[13px]" />
+              <span className="absolute bottom-[3px] left-0 h-[10px] w-full -rotate-1 bg-[#6857ef]/35 sm:h-[13px]" />
             </span>
           </h2>
 
@@ -206,9 +206,9 @@ export default function ReviewSection() {
         className="review-reveal review-slider relative z-10"
       >
         {/* 슬라이드 영역에만 좌우 흐림 */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-10 bg-gradient-to-r from-[#0b0b0b] via-[#0b0b0b]/80 to-transparent sm:w-20 lg:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-10 bg-gradient-to-r from-[#17142d] via-[#17142d]/80 to-transparent sm:w-20 lg:w-32" />
 
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-10 bg-gradient-to-l from-[#0b0b0b] via-[#0b0b0b]/80 to-transparent sm:w-20 lg:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-10 bg-gradient-to-l from-[#17142d] via-[#17142d]/80 to-transparent sm:w-20 lg:w-32" />
 
         <div className="space-y-5">
           {/* 첫 번째 줄 */}
@@ -248,7 +248,7 @@ export default function ReviewSection() {
             좋은 결과는 충분한 대화에서 시작됩니다.
           </p>
 
-          <span className="hidden h-2.5 w-2.5 rounded-full bg-[#ed1b36] sm:block" />
+          <span className="hidden h-2.5 w-2.5 rounded-full bg-[#6857ef] sm:block" />
         </div>
       </div>
 
