@@ -478,7 +478,6 @@ export default function ContactSection() {
                       </select>
                     </label>
                   </div>
-
                   {/* 서비스 선택 */}
                   <div className="mt-9">
                     <p className="mb-4 text-sm font-black">
@@ -486,7 +485,25 @@ export default function ContactSection() {
                       <span className="ml-1 text-[#6857ef]">*</span>
                     </p>
 
-                    <div className="grid gap-3 sm:grid-cols-2">
+                    {/* 모바일 */}
+                    <div className="sm:hidden">
+                      <select
+                        value={form.service}
+                        onChange={(e) => updateForm("service", e.target.value)}
+                        className="h-[56px] w-full rounded-[16px] border-2 border-[#6857ef]/15 bg-[#f7f5ff] px-4 text-sm font-bold outline-none transition-all focus:border-[#6857ef] focus:bg-white"
+                      >
+                        <option value="">서비스를 선택해주세요</option>
+
+                        {services.map((service) => (
+                          <option key={service} value={service}>
+                            {service}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* PC */}
+                    <div className="hidden gap-3 sm:grid sm:grid-cols-2">
                       {services.map((service) => {
                         const isSelected = form.service === service;
 
@@ -499,7 +516,7 @@ export default function ContactSection() {
                               "flex min-h-[58px] items-center justify-between rounded-[16px] border-2 px-4 text-left text-[13px] font-bold transition-all duration-200",
                               isSelected
                                 ? "border-[#6857ef] bg-[#6857ef] text-white shadow-[0_8px_20px_rgba(104,87,239,0.20)]"
-                                : "border-[#6857ef]/[0.10] bg-[#f7f5ff] text-black/65 hover:border-[#6857ef]/35 hover:bg-white",
+                                : "border-[#6857ef]/10 bg-[#f7f5ff] text-black/65 hover:border-[#6857ef]/35 hover:bg-white",
                             ].join(" ")}
                           >
                             <span className="pr-3">{service}</span>

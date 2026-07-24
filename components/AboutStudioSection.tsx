@@ -245,7 +245,7 @@ export default function AboutStudioSection() {
                 data-reveal
                 data-delay="450"
                 className={[
-                  "max-w-[680px] text-[31px] font-black leading-[1.18]",
+                  "max-w-[680px] text-[24px] font-black leading-[1.18]",
                   "tracking-[-0.055em] sm:text-[41px] lg:text-[40px]",
                   "translate-y-[60px] opacity-0",
                   "transition-[transform,opacity] duration-[1300ms]",
@@ -285,7 +285,7 @@ export default function AboutStudioSection() {
                     className={[
                       // handwriting.className,
                       "-rotate-[0.2deg]",
-                      "text-[26px] leading-[1.5] tracking-[-0.02em]",
+                      "text-[18px] leading-[1.5] tracking-[-0.02em]",
                       "text-[#171717] sm:text-[20px]",
                     ].join(" ")}
                   >
@@ -299,7 +299,7 @@ export default function AboutStudioSection() {
                     className={[
                       // handwriting.className,
                       "mt-7 space-y-6",
-                      "text-[22px] leading-[1.65] tracking-[-0.015em]",
+                      "text-[16px] leading-[1.65] tracking-[-0.015em]",
                       "text-[#50505a] sm:text-[18px] sm:leading-[1.7]",
                     ].join(" ")}
                   >
@@ -335,7 +335,7 @@ export default function AboutStudioSection() {
                     <p
                       className={[
                         // handwriting.className,
-                        "-rotate-2 text-[22px] leading-none",
+                        "-rotate-2 text-[16px] leading-none",
                         "text-[#6f62c9] sm:text-[16px]",
                       ].join(" ")}
                     >

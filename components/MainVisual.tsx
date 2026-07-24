@@ -201,18 +201,18 @@ export default function MainVisual() {
         <div className="absolute -bottom-[260px] -left-[180px] h-[600px] w-[600px] rounded-full bg-[#8574ff]/15 blur-[150px]" />
       </div>
 
-      <div className="relative mx-auto max-w-[1600px] px-5 pb-16 pt-28 sm:px-8 sm:pt-32 lg:min-h-[880px] lg:px-12 lg:pb-20 lg:pt-26 xl:px-16">
-        <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12 xl:grid-cols-[0.82fr_1.18fr] xl:gap-16">
+      <div className="relative mx-auto max-w-[1600px] px-5 pb-12 pt-24 sm:px-8 sm:pb-16 sm:pt-28 lg:min-h-[880px] lg:px-12 lg:pb-20 lg:pt-26 xl:px-16">
+        <div className="grid gap-10 sm:gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12 xl:grid-cols-[0.82fr_1.18fr] xl:gap-16">
           {/* 왼쪽 텍스트 영역 */}
           <div className="relative z-20 flex flex-col lg:min-h-[690px]">
-            <div className="mb-10 flex items-center justify-between lg:mb-8">
+            <div className="mb-6 flex items-center justify-between sm:mb-8 lg:mb-8">
               <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#6857ef] sm:text-xs">
                 Creative Digital Studio
               </p>
             </div>
 
             <div>
-              <h1 className="max-w-[650px] text-[64px] font-semibold leading-[0.88] sm:text-[88px] lg:text-[88px] xl:text-[108px]">
+              <h1 className="max-w-[650px] text-[50px] font-semibold leading-[0.92] tracking-[-0.055em] min-[390px]:text-[56px] sm:text-[76px] lg:text-[88px] xl:text-[108px]">
                 We Build
                 <br />
                 <span className="relative inline-block text-[#6857ef]">
@@ -221,7 +221,7 @@ export default function MainVisual() {
                 </span>
               </h1>
 
-              <p className="mt-9 text-[21px] leading-[1.45] tracking-[-0.04em] sm:text-[25px]">
+              <p className="mt-6 text-[17px] leading-[1.55] tracking-[-0.035em] min-[390px]:text-[18px] sm:mt-8 sm:text-[23px] lg:text-[25px]">
                 우리는 브랜드를 만들고
                 <br />
                 비즈니스를 성장시킵니다.
@@ -247,7 +247,7 @@ export default function MainVisual() {
 
           {/* 오른쪽 프로젝트 영역 */}
           <div className="relative min-w-0">
-            <div className="mb-5 flex items-center justify-between">
+            <div className="mb-3 flex items-center justify-between sm:mb-5">
               <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#6857ef]">
                 Our Projects
               </p>
@@ -272,7 +272,7 @@ export default function MainVisual() {
              */}
             <div className="flex min-w-0 flex-col gap-3 sm:gap-4 lg:h-[690px] lg:flex-row xl:h-[730px]">
               {/* 큰 메인 이미지 */}
-              <div className="relative h-[520px] min-w-0 flex-1 overflow-hidden rounded-[22px] bg-[#e8e5ff] shadow-[0_24px_70px_rgba(76,60,170,0.16)] sm:h-[620px] lg:h-full">
+              <div className="relative aspect-[4/5] min-w-0 flex-1 overflow-hidden rounded-[18px] bg-[#e8e5ff] shadow-[0_18px_48px_rgba(76,60,170,0.14)] sm:aspect-[5/6] sm:rounded-[22px] sm:shadow-[0_24px_70px_rgba(76,60,170,0.16)] lg:h-full lg:aspect-auto">
                 <Swiper
                   direction="vertical"
                   slidesPerView={1}
@@ -305,7 +305,7 @@ export default function MainVisual() {
                 </Swiper>
 
                 {/* 자동 재생 상태 */}
-                <div className="pointer-events-none absolute right-4 top-4 z-40 flex items-center gap-2 rounded-full border border-white/25 bg-black/20 px-3 py-2 backdrop-blur-md">
+                <div className="pointer-events-none absolute right-3 top-3 z-40 flex items-center gap-1.5 rounded-full border border-white/25 bg-black/20 px-2.5 py-1.5 backdrop-blur-md sm:right-4 sm:top-4 sm:gap-2 sm:px-3 sm:py-2">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
 
                   <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/85">
@@ -317,12 +317,12 @@ export default function MainVisual() {
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[32%] bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
 
                 {/* 프로젝트 번호 */}
-                <div className="pointer-events-none absolute bottom-5 left-5 z-40 sm:bottom-6 sm:left-6">
+                <div className="pointer-events-none absolute bottom-4 left-4 z-40 sm:bottom-6 sm:left-6">
                   <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
                     Featured project
                   </p>
 
-                  <p className="mt-1 text-[20px] font-semibold tracking-[-0.03em] text-white">
+                  <p className="mt-1 text-[17px] font-semibold tracking-[-0.03em] text-white sm:text-[20px]">
                     Project {String(activeIndex + 1).padStart(2, "0")}
                   </p>
                 </div>
@@ -330,9 +330,9 @@ export default function MainVisual() {
                 <div className="pointer-events-none absolute inset-0 z-30 ring-1 ring-inset ring-black/[0.05]" />
               </div>
 
-              {/* 작은 미리보기 영역 */}
-              <div className="min-w-0 lg:w-[145px] xl:w-[170px] 2xl:w-[190px]">
-                <div className="grid grid-cols-4 gap-2 sm:gap-3 lg:h-full lg:grid-cols-1 lg:grid-rows-4 lg:gap-3">
+              {/* 모바일·태블릿: 가로로 넘기는 미리보기 */}
+              <div className="-mx-5 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:hidden">
+                <div className="flex w-max gap-2.5 sm:gap-3">
                   {[1, 2, 3, 4].map((offset) => {
                     const previewIndex =
                       (activeIndex + offset) % showcaseMedia.length;
@@ -341,29 +341,61 @@ export default function MainVisual() {
 
                     return (
                       <button
-                        key={`${previewMedia.id}-${previewIndex}-${offset}`}
+                        key={`mobile-${previewMedia.id}-${previewIndex}-${offset}`}
                         type="button"
                         aria-label={`${previewIndex + 1}번째 프로젝트 보기`}
                         onClick={() => moveToSlide(previewIndex)}
-                        className="group relative h-[90px] min-h-0 min-w-0 overflow-hidden rounded-[12px] bg-[#ded9ff] shadow-[0_10px_30px_rgba(76,60,170,0.1)] transition-transform duration-300 hover:-translate-y-1 sm:h-[120px] sm:rounded-[15px] lg:h-auto"
+                        className="group relative h-[82px] w-[116px] shrink-0 overflow-hidden rounded-[12px] bg-[#ded9ff] shadow-[0_8px_22px_rgba(76,60,170,0.10)] sm:h-[105px] sm:w-[150px] sm:rounded-[15px]"
                       >
                         <PreviewMedia media={previewMedia} />
 
-                        {/* 어두운 필터 */}
-                        <div className="pointer-events-none absolute inset-0 bg-black/35 transition-colors duration-300 group-hover:bg-black/15" />
+                        <div className="pointer-events-none absolute inset-0 bg-black/30" />
+                        <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/25" />
 
-                        {/* 테두리 */}
-                        <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/20" />
-
-                        {/* 번호 */}
-                        <span className="absolute left-2 top-2 z-20 text-[8px] font-bold tracking-[0.08em] text-white/85 sm:left-3 sm:top-3 sm:text-[9px]">
+                        <span className="absolute left-2 top-2 z-20 text-[8px] font-bold tracking-[0.08em] text-white/90 sm:left-3 sm:top-3 sm:text-[9px]">
                           {String(previewIndex + 1).padStart(2, "0")}
                         </span>
 
-                        {/* 영상 표시 아이콘 */}
                         {previewMedia.type !== "image" && (
-                          <span className="absolute left-1/2 top-1/2 z-20 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/20 backdrop-blur-sm sm:h-9 sm:w-9">
-                            <span className="ml-0.5 h-0 w-0 border-y-[4px] border-l-[7px] border-y-transparent border-l-white sm:border-y-[5px] sm:border-l-[8px]" />
+                          <span className="absolute left-1/2 top-1/2 z-20 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/25 backdrop-blur-sm sm:h-8 sm:w-8">
+                            <span className="ml-0.5 h-0 w-0 border-y-[4px] border-l-[7px] border-y-transparent border-l-white" />
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* PC: 오른쪽 세로 미리보기 */}
+              <div className="hidden min-w-0 lg:block lg:w-[145px] xl:w-[170px] 2xl:w-[190px]">
+                <div className="grid h-full grid-rows-4 gap-3">
+                  {[1, 2, 3, 4].map((offset) => {
+                    const previewIndex =
+                      (activeIndex + offset) % showcaseMedia.length;
+
+                    const previewMedia = showcaseMedia[previewIndex];
+
+                    return (
+                      <button
+                        key={`desktop-${previewMedia.id}-${previewIndex}-${offset}`}
+                        type="button"
+                        aria-label={`${previewIndex + 1}번째 프로젝트 보기`}
+                        onClick={() => moveToSlide(previewIndex)}
+                        className="group relative min-h-0 min-w-0 overflow-hidden rounded-[15px] bg-[#ded9ff] shadow-[0_10px_30px_rgba(76,60,170,0.1)] transition-transform duration-300 hover:-translate-y-1"
+                      >
+                        <PreviewMedia media={previewMedia} />
+
+                        <div className="pointer-events-none absolute inset-0 bg-black/35 transition-colors duration-300 group-hover:bg-black/15" />
+                        <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/20" />
+
+                        <span className="absolute left-3 top-3 z-20 text-[9px] font-bold tracking-[0.08em] text-white/85">
+                          {String(previewIndex + 1).padStart(2, "0")}
+                        </span>
+
+                        {previewMedia.type !== "image" && (
+                          <span className="absolute left-1/2 top-1/2 z-20 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/20 backdrop-blur-sm">
+                            <span className="ml-0.5 h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-white" />
                           </span>
                         )}
                       </button>
@@ -374,7 +406,7 @@ export default function MainVisual() {
             </div>
 
             {/* 하단 진행 바 */}
-            <div className="mt-5 flex items-center gap-2">
+            <div className="mt-4 flex items-center gap-1.5 sm:mt-5 sm:gap-2">
               {showcaseMedia.map((media, index) => (
                 <button
                   key={media.id}
@@ -401,7 +433,7 @@ export default function MainVisual() {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_0%,rgba(255,255,255,0.22),transparent_48%)]"
         />
 
-        <div className="relative mx-auto grid max-w-[1600px] gap-10 px-5 py-11 sm:px-8 lg:grid-cols-[1.2fr_2.5fr_auto] lg:items-center lg:px-12 xl:px-16">
+        <div className="relative mx-auto grid max-w-[1600px] gap-8 px-5 py-9 sm:gap-10 sm:px-8 sm:py-11 lg:grid-cols-[1.2fr_2.5fr_auto] lg:items-center lg:px-12 xl:px-16">
           <div>
             <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-white/50">
               Since 2020
@@ -414,16 +446,18 @@ export default function MainVisual() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-y-8 sm:grid-cols-4">
+          <div className="grid grid-cols-2 overflow-hidden rounded-[18px] border border-white/15 bg-white/[0.06] sm:grid-cols-4 sm:rounded-none sm:border-0 sm:bg-transparent">
             {stats.map((item, index) => (
               <div
                 key={item.label}
                 className={[
-                  "px-4 sm:px-7",
-                  index === 0 ? "pl-0" : "",
+                  "min-h-[108px] px-4 py-5 sm:min-h-0 sm:px-7 sm:py-0",
+                  index === 0 ? "sm:pl-0" : "",
                   index !== stats.length - 1
                     ? "sm:border-r sm:border-white/20"
                     : "",
+                  index % 2 === 0 ? "border-r border-white/15 sm:border-r" : "",
+                  index < 2 ? "border-b border-white/15 sm:border-b-0" : "",
                 ].join(" ")}
               >
                 <p className="text-[34px] font-light tracking-[-0.055em] sm:text-[40px]">
@@ -445,7 +479,7 @@ export default function MainVisual() {
 
           <Link
             href="/portfolio"
-            className="group inline-flex items-center gap-7 text-[10px] font-bold uppercase tracking-[0.1em] text-white/80 transition-colors hover:text-white"
+            className="group inline-flex h-12 w-full items-center justify-between rounded-full border border-white/20 bg-white/10 px-5 text-[10px] font-bold uppercase tracking-[0.1em] text-white/85 transition-colors hover:bg-white/15 hover:text-white sm:w-fit sm:gap-7 sm:border-0 sm:bg-transparent sm:px-0"
           >
             View our works
             <ArrowRight

@@ -587,7 +587,7 @@ export default function NeedsSection() {
 
             <span className="pointer-events-none absolute -right-4 -top-10 h-40 w-40 rounded-full border border-white/10" />
 
-            <div className="relative flex items-start gap-5">
+            <div className="relative flex items-start gap-5 sm:flex-row flex-col">
               <span className="flex h-13 w-13 shrink-0 items-center justify-center rounded-[17px] bg-white text-black shadow-[0_6px_18px_rgba(0,0,0,0.15)]">
                 <Handshake className="h-5 w-5" strokeWidth={2.2} />
               </span>
